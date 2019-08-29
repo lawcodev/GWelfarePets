@@ -1,8 +1,8 @@
 const connection = require('../../data/connection');
 
 module.exports = {
-  async getConfig(){
-    const results = await connection.query('select * from config');       
+  async getSetting(){
+    const results = await connection.query('select * from setting');       
     return results.rows;
   }
 }

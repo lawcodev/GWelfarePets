@@ -3,10 +3,10 @@ const router = express.Router();
 const configModel = require('./settingPersistence');
 
 router.get('/settings', async (req, res, next) => {
-  const configRows = await configModel.getConfig();
+  const rows = await configModel.getSetting();
   res.json({
     status: res.statusCode,
-    data: configRows
+    data: rows
   })
 });
 
