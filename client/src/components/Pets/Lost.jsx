@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { handleGetPet } from '../../services/petsService';
 import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
-
+import Label from '../../common/Label'
 class Lost extends Component {
   constructor(props){
     super(props)
@@ -23,7 +23,7 @@ class Lost extends Component {
         <Col>
           <Card>
             <CardHeader>
-              <i className="fa fa-align-justify"></i> Mascotas
+              <Label text='Mascotas perdidas'/>
             </CardHeader>
             <CardBody>
               <Table hover bordered striped responsive size="sm">
@@ -31,7 +31,7 @@ class Lost extends Component {
                   <tr>
                     <th>#</th>
                     <th>Nombre</th>
-                    <th>Descripción</th>
+                    <th>Descripción</th>  
                     <th>Edad</th>
                     <th>Color</th>
                   </tr>
