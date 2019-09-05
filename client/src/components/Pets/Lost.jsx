@@ -1,7 +1,10 @@
-import React, { Component } from 'react';
-import { handleGetPet } from '../../services/petsService';
-import { Badge, Card, CardBody, CardHeader, Col, Pagination, PaginationItem, PaginationLink, Row, Table } from 'reactstrap';
+import { handleGetPet, handleDeletedPet } from '../../services/petsService';
+import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 import Label from '../../common/Label'
+import Link from '../../common/Link'
+import Icon from '../../common/Icon'
+import React, { Component } from 'react';
+
 class Lost extends Component {
   constructor(props){
     super(props)
@@ -15,47 +18,62 @@ class Lost extends Component {
     const responseJson = await handleGetPet()
     this.setState({ pets: responseJson.data, ok: responseJson.status, isFetch: false})
   }
+  async deletePet(id){
+    const responseJson = await handleDeletedPet(id)
+    this.setState({ response: responseJson.data, isFetch: false})
+    this.componentDidMount()
+    console.log('deleting ' + id);    
+  }
+  
   render() {
     const { pets, isFetch, ok } = this.state
-    if(isFetch && ok == 200) return 'Loading...'
+    if(isFetch && ok === 200) return 'Loading...'
     return(
       <Row>
         <Col>
           <Card>
             <CardHeader>
+              <Icon className='fa fa-align-justify'/>
               <Label text='Mascotas perdidas'/>
             </CardHeader>
             <CardBody>
-              <Table hover bordered striped responsive size="sm">
-                <thead>
+              <table className="table table-striped table-bordered datatable dataTable no-footer">
+                <thead className="thead-light">
                   <tr>
                     <th>#</th>
                     <th>Nombre</th>
                     <th>Descripción</th>  
                     <th>Edad</th>
                     <th>Color</th>
+                    <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody>
                   {
                     pets.map(pet => {
                       return (
-                        <tr>
+                        <tr key={pet.id}>
                           <td>{pet.id}</td>
                           <td>{pet.name}</td>
                           <td>{pet.description}</td>
                           <td>{pet.age} años</td>
                           <td>{pet.color}</td>
+                          <td>
+                            {/* <Link type='button' className='btn btn-success' icon='fa fa-search-plus' href='https://www.redfazt.com'/> */}
+                            <Link className='btn btn-danger' role='button' icon='fa fa-trash-o' url={() =>this.deletePet(pet.id)}/>
+                            {/* <Link type='button' className='btn btn-info' icon='fa fa-edit' href='https://www.redfazt.com'/> */}
+                          </td>
                         </tr>
                       )
                     })
                   }
                 </tbody>
-              </Table>
+              </table>
             </CardBody>
           </Card>
         </Col>
       </Row>
+      
     )
   }
 }

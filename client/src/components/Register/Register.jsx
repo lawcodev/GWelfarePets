@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Card, CardBody, CardFooter, Col, Container, Form, Input, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
-import Span from '../../common/Span'
+import { Card, CardBody, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import H1 from '../../common/H1'
-import P from '../../common/P'
+import Paragraph from '../../common/Paragraph'
 import Inputs from '../../common/Inputs'
 import Buttons from '../../common/Buttons'
 class Register extends Component {
@@ -16,7 +15,7 @@ class Register extends Component {
                 <CardBody className="p-4">
                   <Form>
                     <H1 text='Registrar'/>
-                    <P className='text-muted' text='Crear tu cuenta'/>
+                    <Paragraph className='text-muted' text='Crear tu cuenta'/>
                     <InputGroup className="mb-3">
                       <InputGroupAddon addonType="prepend">
                         <InputGroupText>
