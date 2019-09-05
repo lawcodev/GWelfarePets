@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-
+import H1 from '../../common/H1'
 class Users extends Component {
   render() {
     return(
-      <h1>Lista de usuarios</h1>
+      <H1 text='Lista de usuarios'/>
     )
   }
 }

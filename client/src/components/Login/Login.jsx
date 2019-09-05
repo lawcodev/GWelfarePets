@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, CardBody, CardGroup, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import H1 from '../../common/H1'
-import P from '../../common/P'
+import Paragraph from '../../common/Paragraph'
 import H2 from '../../common/H2'
 import Buttons from '../../common/Buttons'
 import Inputs from '../../common/Inputs'
@@ -18,7 +18,7 @@ class Login extends Component {
                   <CardBody>
                     <Form>
                       <H1 text='Login'/>
-                      <P className='text-muted' text='Para ingresar registrate'/>
+                      <Paragraph className='text-muted' text='Para ingresar registrate'/>
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -50,7 +50,7 @@ class Login extends Component {
                   <CardBody className="text-center">
                     <div>
                       <H2 text='Registrate'/>
-                      <P text='Unete a la comunidad de mascotas perdidas y rescatadas'/>
+                      <Paragraph text='Unete a la comunidad de mascotas perdidas y rescatadas'/>
                       <Link to="/register">
                         <Buttons color='primary' className='mt-3' active tabIndex={-1} text='Registrate ahora'/>
                       </Link>
