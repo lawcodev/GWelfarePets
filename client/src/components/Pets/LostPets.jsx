@@ -1,4 +1,4 @@
-import { handleGetPet, handleDeletedPet } from '../../services/petsService';
+import { handleGetPet, handleDeletedPet} from './services/ServicesPets';
 import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
 import Label from '../../common/Label'
 import Link from '../../common/Link'
@@ -18,13 +18,11 @@ class Lost extends Component {
     const responseJson = await handleGetPet()
     this.setState({ pets: responseJson.data, ok: responseJson.status, isFetch: false})
   }
-  async deletePet(id){
+  async handleDeletePet(id){
     const responseJson = await handleDeletedPet(id)
     this.setState({ response: responseJson.data, isFetch: false})
     this.componentDidMount()
-    console.log('deleting ' + id);    
   }
-  
   render() {
     const { pets, isFetch, ok } = this.state
     if(isFetch && ok === 200) return 'Loading...'
@@ -59,9 +57,9 @@ class Lost extends Component {
                           <td>{pet.age} años</td>
                           <td>{pet.color}</td>
                           <td>
-                            {/* <Link type='button' className='btn btn-success' icon='fa fa-search-plus' href='https://www.redfazt.com'/> */}
-                            <Link className='btn btn-danger' role='button' icon='fa fa-trash-o' url={() =>this.deletePet(pet.id)}/>
-                            {/* <Link type='button' className='btn btn-info' icon='fa fa-edit' href='https://www.redfazt.com'/> */}
+                            <Link type='button' className='btn btn-success' icon='fa fa-search-plus' href='https://www.redfazt.com'/>
+                            <Link className='btn btn-danger' role='button' icon='fa fa-trash-o' url={() =>this.handleDeletePet(pet.id)}/>
+                            <Link type='button' className='btn btn-info' icon='fa fa-edit' href='https://www.redfazt.com'/>
                           </td>
                         </tr>
                       )

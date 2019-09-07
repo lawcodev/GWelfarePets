@@ -1,7 +1,7 @@
 import React from 'react'
 
 const Span = props =>(
-  <span>
+  <span className={props.className}>
     {props.text}
   </span>
 )
