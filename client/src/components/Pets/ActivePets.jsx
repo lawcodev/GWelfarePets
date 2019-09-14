@@ -5,7 +5,7 @@ class Rescued extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <H1 text='Mascotas rescatadas'/>
+        <H1 text='Mascotas activas'/>
       </div>
     );
   }

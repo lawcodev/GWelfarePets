@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Link = props =>(
-  <a type={props.type} role={props.role} className={props.className} onClick={props.url} href={props.href}>
-    <i className={props.icon}></i>
+  <a type={props.type} role={props.role} className={props.className} onClick={props.onClick} href={props.href}>
+    <i className={props.icon}></i> {props.text}
   </a>
 )
 

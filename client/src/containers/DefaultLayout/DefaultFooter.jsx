@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Span from '../../common/Span'
 
 class DefaultFooter extends Component {
   render() {
     return (
       <React.Fragment>
-        <span className="ml-auto">&copy; Copyright - 2019</span>
+        <Span className='ml-auto' text='&copy; Copyright - 2019 '/> 
       </React.Fragment>
     );
   }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const configModel = require('./settingPersistence');
+const configModel = require('../services/setting.services');
 
 router.get('/settings', async (req, res, next) => {
   const rows = await configModel.getSetting();

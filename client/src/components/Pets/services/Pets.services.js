@@ -1,4 +1,4 @@
-import { apiHandleFetchPets, apiHandleDeletePets, apiHandleCountLostPets } from '../api/UrlApi'
+import { apiHandleFetchPets, apiHandleDeletePets, apiHandleCountLostPets, apiHandleDetailPets } from '../api/Handler.api'
 
 export async function handleGetPet(){
   const fetchPet = await fetch(apiHandleFetchPets)
@@ -15,4 +15,9 @@ export async function handleCountLostPet(){
   const responseCountPet = await countPet.json()
   return responseCountPet
 }
-export default { handleGetPet, handleDeletedPet, handleCountLostPet }
+export async function handleDetailPet(id){
+  const detailPet = await fetch(`${apiHandleDetailPets}+${id}`)
+  const responseDetailPet = await detailPet.json()
+  return responseDetailPet
+}
+export default { handleGetPet, handleDeletedPet, handleCountLostPet, handleDetailPet }

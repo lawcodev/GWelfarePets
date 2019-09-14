@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { UncontrolledDropdown, DropdownItem, DropdownMenu, DropdownToggle, Nav } from 'reactstrap';
 import PropTypes from 'prop-types';
-
-import { AppNavbarBrand, AppSidebarToggler } from '@coreui/react';
-import logo from '../../assets/img/brand/logo.svg'
-import sygnet from '../../assets/img/brand/sygnet.svg'
-import Label from '../../common/Label'
-import H2 from '../../common/H2';
+import { AppSidebarToggler } from '@coreui/react';
 
 const propTypes = {
   children: PropTypes.node,
@@ -23,9 +18,7 @@ class DefaultHeader extends Component {
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
-        <H2 text='GEWP - 2019'/>
         <AppSidebarToggler className="d-md-down-none" display="lg" />
-
         <Nav className="d-md-down-none" navbar>
           {/* <NavItem className="px-3">
             <NavLink to="/dashboard" className="nav-link" >Dashboard</NavLink>

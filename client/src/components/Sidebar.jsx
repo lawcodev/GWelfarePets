@@ -3,6 +3,7 @@ export default {
     {
       name: 'Dashboard',
       url: '/dashboard',
+      icon: 'fa fa-tachometer',
       badge: {
         variant: 'info',
         text: '%',
@@ -10,27 +11,64 @@ export default {
     },
     {
       name: 'Mascotas',
-      url: '/pets',
-      icon: 'icon-puzzle',
+      url: '/mascotas',
+      icon: 'fa fa-paw',
       children: [
         {
-          name: 'Perdidas',
-          url: '/Pets/lost',
+          name: 'Administrar mascotas ',
+          url: '/mascotas',
         },
         {
-          name: 'Rescatadas',
-          url: '/Pets/rescued',
+          name: 'Mascotas activas',
+          url: '/mascotas/activas',
+        },
+        {
+          name: 'Administrar razas',
+          // url: '/Pets/rescued',
         },
       ],
     },
     {
-      name: 'Usuarios ',
+      name: 'Accidentes ',
       url: '/Lista',
-      icon: 'icon-cursor',
+      icon: 'fa fa-free-code-camp',
       children: [
         {
-          name: 'Lista',
-          url: '/Users/Users',
+          name: 'Gestionar adopción',
+          url: '/Users/list',
+        },
+      ],
+    },
+    {
+      name: 'Adopción ',
+      url: '/Lista',
+      icon: 'fa fa-heart',
+      children: [
+        {
+          name: 'Gestionar adopción',
+          url: '/Users/list',
+        },
+      ],
+    },
+    {
+      name: 'Apadrinamiento ',
+      url: '/Lista',
+      icon: 'fa fa-shield',
+      children: [
+        {
+          name: 'Gestionar apadrinamiento',
+          url: '/Users/list',
+        },
+      ],
+    },
+    {
+      name: 'Mascotas perdidas ',
+      url: '/Lista',
+      icon: 'fa fa-map-marker',
+      children: [
+        {
+          name: 'Gestión de mascotas perdidas',
+          url: '/Users/list',
         },
       ],
     },
