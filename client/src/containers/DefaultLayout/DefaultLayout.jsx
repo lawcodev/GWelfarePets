@@ -65,8 +65,8 @@ class DefaultLayout extends Component {
                         name={route.name}
                         render={props => (
                           <route.component {...props} />
-                        )} />
-                    ) : (null);
+                        )}/>
+                    ):(null);
                   })}
                   <Redirect from="/" to="/dashboard" />
                 </Switch>

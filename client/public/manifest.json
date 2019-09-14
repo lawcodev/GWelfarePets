@@ -1,9 +1,8 @@
 {
-  "short_name": "GEWP",
-  "name": "GEWP-React",
+  "short_name": "GEOPETFARE",
+  "name": "GEOPETFARE",
   "icons": [
     {
-      "src": "./assets/img/favicon.png",
       "sizes": "100x100",
       "type": "image/png"
     }

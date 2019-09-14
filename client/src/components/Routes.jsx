@@ -1,18 +1,18 @@
 import React from 'react';
 
-const Users = React.lazy(() => import('./Users/Users'))
-const LostPets = React.lazy(() => import('./Pets/LostPets'));
-const RescuedPets = React.lazy(() => import('./Pets/RescuedPets'));
+// const List = React.lazy(() => import('./Users/List'))
+const ManagePets = React.lazy(() => import('./Pets/ManagePets'));
+const ActivePets = React.lazy(() => import('./Pets/ActivePets'));
 const Dashboard = React.lazy(() => import('./Dashboard/Dashboard'))
 
 const routes = [
   
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/', name: 'Home' },
   { path: '/Dashboard', exact: true, name: 'Dashboard', component: Dashboard },
-  { path: '/Pets/Lost', exact: true, name: 'Mascotas perdidas', component: LostPets },
-  { path: '/Pets/Rescued', exact: true, name: 'Mascotas rescatadas', component: RescuedPets },
+  { path: '/Mascotas', exact: true, name: 'Gestión de mascotas', component: ManagePets },
+  { path: '/Mascotas/activas', exact: true, name: 'Mascotas rescatadas', component: ActivePets },
   // { path: '/users/:id', exact: true, name: 'Detalle del usuario', component: User }, // Ejemplo para el paso de un parametro
-  { path: '/Users/Users', exact: true, name: 'Usuarios', component: Users },
+  // { path: '/Users/List', exact: true, name: 'Usuarios', component: List },
 ];
 
 export default routes;

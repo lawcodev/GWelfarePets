@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const petModel = require('./petPersistence');
+const petModel = require('../services/pet.services');
 
 router.get('/pets', async (req, res, next) => {
   const rows = await petModel.getPet();
@@ -24,6 +24,13 @@ router.get('/pets/delete/:id', async (req, res, next) =>{
   res.json({
     status: res.statusCode,
     data: response
+  })
+});
+router.get('/pets/detail/:id', async (req, res, next) =>{
+  const rowsAffect = await petModel.getPetId(req.params.id)
+  res.json({
+    status: res.statusCode,
+    data: rowsAffect
   })
 });
 module.exports = router;

@@ -1,8 +1,8 @@
-const connection = require('../../data/connection');
+const connection = require('../data/connection');
 
 module.exports = {
   async getPet(){
-    const results = await connection.query('select * from pet');       
+    const results = await connection.query('select * from GetAllPet()');       
     return results.rows;
   },
   async delete(id){
