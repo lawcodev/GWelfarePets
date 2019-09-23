@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row } from 'reactstrap';
-import { handleCountLostPet } from '../Pets/services/Pets.services'
+import { handleCountLostPet } from '../Pets/services/pets.services'
 import CardView from '../../common/CardView'
 
 class Dashboard extends Component {
@@ -22,11 +22,11 @@ class Dashboard extends Component {
       <div className="animated fadeIn">
         {/* Cardview - contadores */}
         <Row>
-          <CardView lg='3' className='text-white bg-warning' text='MASCOTAS PERDIDAS' results={countLostPet === 0 ? 'Error a mostrar datos' : countLostPet}/>
-          <CardView lg='3' className='text-white bg-danger' text='MASCOTAS MALTRATADAS' results={countLostPet === 0 ? 'Error a mostrar datos' : countLostPet}/>
-          <CardView lg='3' className='text-white bg-primary' text='MASCOTAS RAPTADAS' results={countLostPet === 0 ? 'Error a mostrar datos' : countLostPet}/>
-          <CardView lg='3' className='text-white bg-success' text='MASCOTAS ADOPTADAS' results={countLostPet === 0 ? 'Error a mostrar datos' : countLostPet}/>
-          <CardView lg='3' className='text-black' text='MASCOTAS SIN ADOPTAR' results={countLostPet === 0 ? 'Error a mostrar datos' : countLostPet}/>
+          <CardView lg='3' className='text-white bg-warning' text='MASCOTAS PERDIDAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+          <CardView lg='3' className='text-white bg-danger' text='MASCOTAS MALTRATADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+          <CardView lg='3' className='text-white bg-primary' text='MASCOTAS RAPTADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+          <CardView lg='3' className='text-white bg-success' text='MASCOTAS ADOPTADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+          <CardView lg='3' className='text-black' text='MASCOTAS SIN ADOPTAR' results={countLostPet === 0 ? '0' : countLostPet}/>
         </Row>
       </div>
     );

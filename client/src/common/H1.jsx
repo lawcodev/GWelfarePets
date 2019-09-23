@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const H1 = props =>(
-  <h1 className={props.className}>
-    {props.text}
-  </h1>
-)
+class H1 extends Component {
+  render () {
+    return (
+      <h1 className={this.props.className}>
+        {this.props.text}
+      </h1>
+    )
+  }
+}
+
 export default H1

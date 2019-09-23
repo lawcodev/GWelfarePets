@@ -1,12 +1,40 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Card, CardBody, CardGroup, Col, Container, Form, InputGroup, InputGroupAddon, InputGroupText, Row } from 'reactstrap';
 import H1 from '../../common/H1'
 import Paragraph from '../../common/Paragraph'
-import H2 from '../../common/H2'
 import Buttons from '../../common/Buttons'
 import Inputs from '../../common/Inputs'
+import perro from '../../assets/img/brand/perro.png'
+import { TITLE_LOGIN, SUBTITLE_L0GIN } from '../../config/config'
+import { HandleAuthentication } from './services/authHelper.services'
+
 class Login extends Component {
+
+  state = {
+    username: '',
+    password: ''
+  }
+  //#region Funciones para redireccionar
+  functionRedirect(nameRedirect) {
+    this.props.history.push(nameRedirect)
+  }
+  handleFormSubmit = (e) => {
+    e.preventDefault()
+    let username = this.state.username
+    let password = this.state.password
+    const data = {
+      username,
+      password
+    }
+    console.log(data);
+    // Aun falta implementar el login
+    this.functionRedirect('/dashboard')
+  }
+  _handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -14,18 +42,23 @@ class Login extends Component {
           <Row className="justify-content-center">
             <Col md="8">
               <CardGroup>
-                <Card className="p-4">
+              <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '100%' }}>
+                  <CardBody className="text-center">
+                    <img src={perro} style={{ width: '100%' }}/>
+                  </CardBody>
+                </Card>
+                <Card className="p-5">
                   <CardBody>
-                    <Form>
-                      <H1 text='Login'/>
-                      <Paragraph className='text-muted' text='Para ingresar registrate'/>
-                      <InputGroup className="mb-3">
+                    <Form className="box-form">
+                      <H1 text={TITLE_LOGIN}/>
+                      <Paragraph className='text-muted' text={SUBTITLE_L0GIN}/>
+                      <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i className="icon-user"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Inputs type='text' placeholder='Username' autoComplete='Username' />
+                        <Inputs type='text' placeholder='Usuario' required name='username' onChange={this._handleChange} autoComplete='Usuario' />
                       </InputGroup>
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
@@ -33,28 +66,14 @@ class Login extends Component {
                             <i className="icon-lock"></i>
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Inputs type='password' placeholder='Password' autoComplete='current-password' />
+                        <Inputs type='password' placeholder='Password' name='password' onChange={this._handleChange} autoComplete='current-password' />
                       </InputGroup>
                       <Row>
-                        <Col xs="6">
-                          <Buttons color='primary' className='px-4' text='Login'/>
-                        </Col>
-                        <Col xs="6" className="text-right">
-                          <Buttons color='link' className='px-0' text='Forgot password?'/>
+                        <Col xs="8">
+                          <Buttons color='btn btn-primary' className='px-4' onClick={this.handleFormSubmit} text='Ingresar'/>
                         </Col>
                       </Row>
                     </Form>
-                  </CardBody>
-                </Card>
-                <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '44%' }}>
-                  <CardBody className="text-center">
-                    <div>
-                      <H2 text='Registrate'/>
-                      <Paragraph text='Unete a la comunidad de mascotas perdidas y rescatadas'/>
-                      <Link to="/register">
-                        <Buttons color='primary' className='mt-3' active tabIndex={-1} text='Registrate ahora'/>
-                      </Link>
-                    </div>
                   </CardBody>
                 </Card>
               </CardGroup>
@@ -62,6 +81,7 @@ class Login extends Component {
           </Row>
         </Container>
       </div>
+     
     );
   }
 }

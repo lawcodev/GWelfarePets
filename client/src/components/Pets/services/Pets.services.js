@@ -1,23 +1,24 @@
-import { apiHandleFetchPets, apiHandleDeletePets, apiHandleCountLostPets, apiHandleDetailPets } from '../api/Handler.api'
+import  ApiEndPoint from '../api/api'
+import * as httpService from '../../../config/httpService'
 
-export async function handleGetPet(){
-  const fetchPet = await fetch(apiHandleFetchPets)
-  const responseFechPet = await fetchPet.json()
-  return responseFechPet
+export async function HandlePetGetAll () {
+  const response = await httpService.EntityGetAll(new ApiEndPoint().apiGetPetsPath())
+  return response
 }
-export async function handleDeletedPet(id){
-  const deletePet = await fetch(`${apiHandleDeletePets}+${id}`)
-  const responseDeletPet = await deletePet.json()
-  return responseDeletPet
+export async function HandlePetDelete(idpet) {
+  const response = await httpService.EntityDelete(new ApiEndPoint().apiDeletePetPath(idpet))
+  return response
 }
-export async function handleCountLostPet(){
-  const countPet = await fetch(apiHandleCountLostPets)
-  const responseCountPet = await countPet.json()
+export async function handleCountLostPet() {
+  const countPet = await fetch(new ApiEndPoint().apiCountPetPath())
+  const responseCountPet = countPet.json()
   return responseCountPet
 }
-export async function handleDetailPet(id){
-  const detailPet = await fetch(`${apiHandleDetailPets}+${id}`)
-  const responseDetailPet = await detailPet.json()
-  return responseDetailPet
+export async function HandlePetGetById(idpet) {
+  const response = await httpService.EntityGetById(new ApiEndPoint().apiDetailPetPath(idpet))
+  return response
 }
-export default { handleGetPet, handleDeletedPet, handleCountLostPet, handleDetailPet }
+export async function HandlePetCreate (entity) {
+  const response = await httpService.EntityCreate(new ApiEndPoint().apiAddNewPetPath(), entity)
+  return response
+}

@@ -4,7 +4,6 @@ import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
 
 import {
-  AppAside,
   AppFooter,
   AppHeader,
   AppSidebar,
@@ -20,7 +19,6 @@ import navigation from '../../components/Sidebar';
 // routes config
 import routes from '../../components/Routes';
 
-const DefaultAside = React.lazy(() => import('./DefaultAside'));
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
@@ -68,16 +66,11 @@ class DefaultLayout extends Component {
                         )}/>
                     ):(null);
                   })}
-                  <Redirect from="/" to="/dashboard" />
+                  <Redirect from="/" to="/login" />
                 </Switch>
               </Suspense>
             </Container>
           </main>
-          <AppAside fixed>
-            <Suspense fallback={this.loading()}>
-              <DefaultAside />
-            </Suspense>
-          </AppAside>
         </div>
         <AppFooter>
           <Suspense fallback={this.loading()}>

@@ -19,12 +19,8 @@ export default {
           url: '/mascotas',
         },
         {
-          name: 'Mascotas activas',
-          url: '/mascotas/activas',
-        },
-        {
           name: 'Administrar razas',
-          // url: '/Pets/rescued',
+          url: '/razas',
         },
       ],
     },
