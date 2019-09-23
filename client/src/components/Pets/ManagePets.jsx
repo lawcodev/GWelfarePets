@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HandlePetGetAll, HandlePetDelete, HandlePetGetById} from './services/Pets.services'; // Service
+import { HandlePetGetAll, HandlePetDelete, HandlePetGetById} from './services/pets.services'; // Service
 import { Card, CardBody, CardHeader, Col, Row, FormGroup } from 'reactstrap';
 import Label from '../../common/Label'
 import Link from '../../common/Link'
