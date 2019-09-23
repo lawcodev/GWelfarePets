@@ -1,12 +1,9 @@
-const { Pool } = require('pg')
+const mysql = require('mysql')
+const config = require('./config.js')
+const connection = mysql.createConnection(config)
 
-const pool = new Pool({
-
-  host: '',
-  user: 'postgres',
-  password: 'jcs12344321',
-  database: 'gwelfarepetsBD',
-  port: 5432
-  
-});
-module.exports = pool;
+connection.connect(function(error){
+  if (error) console.error('Error de conexión', error.stack);
+  console.log('Database connected - N° del hilo ' + connection.threadId); 
+})
+module.exports = connection;
