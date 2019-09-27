@@ -21,7 +21,8 @@ class ManagePets extends Component {
   constructor(props){
     super(props)
     this.state = {
-      pets: [], petsBackUp: [], pet: Object, isFetch: true, ok: Number, open: false, setOpen: false, redirect: false, hembras: [], machos: []
+      pets: [], petsBackUp: [], pet: Object, isFetch: true, ok: Number, open: false, setOpen: false, redirect: false, hembras: [], machos: [],
+      index: []
     }    
   }
   //#region Métodos del consumo del webservice | Ciclo de vida de un componente
@@ -29,9 +30,18 @@ class ManagePets extends Component {
     const responseJson = await HandlePetGetAll()
     this.setState({ 
       pets: responseJson.data, petsBackUp: responseJson.data, ok: responseJson.status, isFetch: false
-    })    
+    })  
+    this.countRowTable()
     this.functionCountMales()
     this.functionCountFemales()
+  }
+  async countRowTable () {
+    for(let i = 1; i<this.state.pets.length + 1; i++) {
+      this.setState({index: [i]}) 
+      return(
+        <td>{i}</td>
+      )
+    }
   }
   async handleDeletePet(id){
     const responseJson = await HandlePetDelete(id)
@@ -87,7 +97,7 @@ class ManagePets extends Component {
     this.setState({ pets: petsFilter })
   }
   render() {
-    const { pets, isFetch, ok, pet, open, machos, hembras} = this.state
+    const { pets, isFetch, ok, pet, open, machos, hembras } = this.state
   
     if(isFetch && ok === 200) return loading()
     return(
@@ -112,7 +122,7 @@ class ManagePets extends Component {
                 <table className="table table-striped">
                   <thead className="thead-light">
                     <tr>
-                      <th>ID</th>
+                      <th>N°</th>
                       <th>Nombre</th>
                       <th>Descripción</th>  
                       <th>Edad</th>
@@ -123,10 +133,10 @@ class ManagePets extends Component {
                   </thead>
                   <tbody>
                     {
-                      pets.length > 0 ? pets.map(pet => {
+                      pets.length > 0 ? pets.map((pet, index)=> {
                         return (
                           <tr key={pet.idpet}>
-                            <td>{pet.idpet}</td>
+                            <td>{index + 1}</td>
                             <td>{pet.petName}</td>
                             <td>{pet.description}</td>
                             <td>{pet.age}</td>
@@ -164,7 +174,7 @@ class ManagePets extends Component {
                   <Buttons onClick={() =>this.functionClose()} color='danger' text='Cerrar'/>
                 </DialogActions>
               </Dialog>
-              {/* Boton nuevo*/}
+              {/* Redirect crear */}
               <Link className='btn btn-success' text='Nuevo' onClick={() => this.functionRedirect('mascotas/nuevo')}/>
             </CardBody>
           </Card>

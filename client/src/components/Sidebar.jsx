@@ -31,7 +31,7 @@ export default {
       children: [
         {
           name: 'Gestionar adopción',
-          url: '/Users/list',
+          // url: '/Users/list',
         },
       ],
     },
@@ -42,7 +42,7 @@ export default {
       children: [
         {
           name: 'Gestionar adopción',
-          url: '/Users/list',
+          // url: '/Users/list',
         },
       ],
     },
@@ -53,7 +53,7 @@ export default {
       children: [
         {
           name: 'Gestionar apadrinamiento',
-          url: '/Users/list',
+          // url: '/Users/list',
         },
       ],
     },
@@ -64,7 +64,7 @@ export default {
       children: [
         {
           name: 'Gestión de mascotas perdidas',
-          url: '/Users/list',
+          url: '/ubicacion/mascotas',
         },
       ],
     },

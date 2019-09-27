@@ -69,6 +69,7 @@ router.post('/pets/add', async (req, res) => {
   try {
     const storeProcedure = `call spAddNewPet(?,?,?,?)`
     const { name, description, age, genre} = req.body
+    
     const newPet = { name, description, age, genre }
     connection.query(storeProcedure, [newPet.name, newPet.description, newPet.age, newPet.genre], (error) => {
       if (error)

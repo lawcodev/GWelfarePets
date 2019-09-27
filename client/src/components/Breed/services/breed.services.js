@@ -1,4 +1,4 @@
-import  ApiEndPoint from '../api/api'
+import  ApiEndPoint from '../../../api/api'
 import * as httpService from '../../../config/httpService'
 
 export async function HandleBreedGetAll () {

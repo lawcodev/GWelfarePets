@@ -14,10 +14,12 @@ class Dashboard extends Component {
     const responseCountLostPet = await handleCountLostPet()
     this.setState({ countLostPet: responseCountLostPet.data.count, isFetch: false})
   }
-
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+
   render() {
+    
     const {countLostPet} = this.state
+
     return (
       <div className="animated fadeIn">
         {/* Cardview - contadores */}

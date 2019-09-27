@@ -30,7 +30,9 @@ class NewPet extends Component {
       description: '',
       age: 0,
       genre:0,
-      error: false
+      error: false,
+      file: '',
+      nameImage: ''
     };
     this.handleNewPet = this.handleNewPet.bind(this)
     this.handleChange = this.handleChange.bind(this)
@@ -38,7 +40,6 @@ class NewPet extends Component {
 
   //Ciclo de vida del component
   componentDidMount () {
-    console.log('component initialize');    
   }
 
   toggle() {
@@ -49,6 +50,8 @@ class NewPet extends Component {
   }
   // Capturamos el valor de cada input 
   handleChange (e) {
+    e.preventDefault()
+
     const { name, description, age, genre, value } = e.target
     this.setState({
       [name]: value,
@@ -56,6 +59,17 @@ class NewPet extends Component {
       [age]: value,
       [genre]: value
     })
+  }
+  // handleImageChange (e) {
+  //   e.preventDefault()
+  //   const { file, size, name, type } = e.target.files[0]
+     
+  // }
+  handleImageChange = (e) => {
+    let file = e.target.files[0]
+    const { name, type, size } = file
+    console.log(name + type + size);
+       
   }
   //#region Funciones para redireccionar
   functionRedirect(nameRedirect) {
@@ -68,7 +82,7 @@ class NewPet extends Component {
       name: this.state.name,
       description: this.state.description,
       age: this.state.age,
-      genre: this.state.genre
+      genre: this.state.genre,
     }    
     if (!newPet.genre || newPet.name === '') {
       alert('Ingrese los campos necesarios')
@@ -81,9 +95,10 @@ class NewPet extends Component {
       await HandlePetCreate(newPet) // await, debido a que es asíncrono, se va a tardar algo en procesar.
       this.functionRedirect('/mascotas') // redirecciona a la lista de mascotas
     }
+    console.log(newPet);
   }
-
   render() {
+  
     return (
       <div className="animated fadeIn">
         <Row>
@@ -144,7 +159,7 @@ class NewPet extends Component {
                       <Label htmlFor="file-input" text='Foto:'/>
                     </Col>
                     <Col xs="12" md="4">
-                      <Input type='file' id='file-input' name='file-input'/>
+                      <Input type='file' onChange={this.handleImageChange} name='file'/>
                     </Col>
                   </FormGroup>
                   <Button type="submit" className="btn btn-primary" size="sm" color="primary"><Icon className='fa fa-save'/> Guardar</Button>
