@@ -6,7 +6,6 @@ import Buttons from '../../common/Buttons'
 import Inputs from '../../common/Inputs'
 import perro from '../../assets/img/brand/perro.png'
 import { TITLE_LOGIN, SUBTITLE_L0GIN } from '../../config/config'
-import { HandleAuthentication } from './services/authHelper.services'
 
 class Login extends Component {
 
@@ -28,7 +27,7 @@ class Login extends Component {
     }
     console.log(data);
     // Aun falta implementar el login
-    this.functionRedirect('/dashboard')
+    this.functionRedirect('/home')
   }
   _handleChange = (e) => {
     this.setState({
@@ -69,8 +68,8 @@ class Login extends Component {
                         <Inputs type='password' placeholder='Password' name='password' onChange={this._handleChange} autoComplete='current-password' />
                       </InputGroup>
                       <Row>
-                        <Col xs="8">
-                          <Buttons color='btn btn-primary' className='px-4' onClick={this.handleFormSubmit} text='Ingresar'/>
+                        <Col xs="12">
+                          <Buttons color='primary' className='btn btn-primary btn-lg btn-block' onClick={this.handleFormSubmit} text='Ingresar'/>
                         </Col>
                       </Row>
                     </Form>

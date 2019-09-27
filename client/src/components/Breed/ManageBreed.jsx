@@ -54,10 +54,10 @@ class ManageBreed extends Component {
                   </thead>
                   <tbody>
                     {
-                      breeds.length > 0 ? breeds.map(breed => {
+                      breeds.length > 0 ? breeds.map((breed, index) => {
                         return (
                           <tr key={breed.idbreed}>
-                            <td>{breed.idbreed}</td>
+                            <td>{index + 1}</td>
                             <td>{breed.name}</td>
                             <td>
                               <Link className='btn btn-success' icon='fa fa-search-plus' onClick={() =>this.functionClickOpen(breed.idbreed)}/>

@@ -9,6 +9,7 @@ const Dashboard = React.lazy(() => import('./Dashboard/Dashboard'))
 const ManageBreed = React.lazy(() => import('./Breed/ManageBreed'))
 const NewBreed = React.lazy(() => import('./Breed/NewBreed'))
 
+const LostPetsMaps = React.lazy(() => import('./LostPetsMaps/LostPetsMaps'))
 const routes = [
   
   { path: '/', exact: true, name: 'Home' },
@@ -19,8 +20,9 @@ const routes = [
   { path: '/Mascotas/editar/:id', exact: true, name: 'Editar mascota', component: NewPet }, 
 
   { path: '/Razas', exact: true, name: 'Administración de razas', component: ManageBreed},
-  { path: '/Razas/nuevo', exact: true, name: 'Registro de razas', component: NewBreed}
-  // { path: '/Users/List', exact: true, name: 'Usuarios', component: List },
+  { path: '/Razas/nuevo', exact: true, name: 'Registro de razas', component: NewBreed},
+
+  { path: '/Ubicacion/mascotas', exact: true, name: 'Adminstración de mascotas perdidas', component: LostPetsMaps}
 ];
 
 export default routes;

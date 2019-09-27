@@ -3,6 +3,7 @@
   "name": "GEOPETFARE",
   "icons": [
     {
+      "src": "./assets/img/letra-g.png",
       "sizes": "100x100",
       "type": "image/png"
     }
