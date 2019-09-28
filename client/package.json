@@ -24,6 +24,7 @@
     "enzyme-adapter-react-16": "^1.14.0",
     "flag-icon-css": "^3.3.0",
     "font-awesome": "^4.7.0",
+    "google-maps-react": "^2.0.2",
     "jwt-decode": "^2.2.0",
     "material-table": "^1.50.0",
     "materialize-css": "^1.0.0-rc.2",
