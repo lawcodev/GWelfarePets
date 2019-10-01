@@ -2,6 +2,7 @@ import { BASE_URL_SERVER } from '../config/config'
 const AUTHENTICATION_PATH = '/api/authentication'
 const PETS_PATH = '/api/pets'
 const BREED_PATH = '/api/breeds'
+const QUESTIONS_PATH = '/api/questions'
 
 export default class ApiEndPoint {
   /* Authentication */
@@ -42,5 +43,13 @@ export default class ApiEndPoint {
   }
   apiAddNewBreedPath = () => {
     return `${BASE_URL_SERVER}${BREED_PATH}/add`
+  }
+  /* Api del proceso de adopción */
+  apiGetQuestionsPath = () => {
+    return `${BASE_URL_SERVER}${QUESTIONS_PATH}`
+  }
+  /* Api de authenticación */ 
+  apiDetailAuthenticationPath = (id) => {
+    return `${BASE_URL_SERVER}${AUTHENTICATION_PATH}/detail/${id}`
   }
 }

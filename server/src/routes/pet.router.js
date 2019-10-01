@@ -68,12 +68,12 @@ router.get('/pets/detail/:id', async (req, res) => {
 router.post('/pets/add', async (req, res) => {
   try {
     const storeProcedure = `call spAddNewPet(?,?,?,?)`
-    const { name, description, age, genre} = req.body
+    const { name, description, years, genre } = req.body
     
-    const newPet = { name, description, age, genre }
-    connection.query(storeProcedure, [newPet.name, newPet.description, newPet.age, newPet.genre], (error) => {
+    const newPet = { name, description, years, genre }
+    connection.query(storeProcedure, [newPet.name, newPet.description, newPet.years, newPet.genre], (error) => {
       if (error)
-      return console.error(error.message);
+        return console.error(error.message);
       res.json({
         status: res.statusCode,
         data: 'Creado correctamente'

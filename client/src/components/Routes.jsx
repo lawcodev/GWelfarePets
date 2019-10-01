@@ -8,11 +8,11 @@ const Dashboard = React.lazy(() => import('./Dashboard/Dashboard'))
 //Razas
 const ManageBreed = React.lazy(() => import('./Breed/ManageBreed'))
 const NewBreed = React.lazy(() => import('./Breed/NewBreed'))
-
+const Home = React.lazy(() => import('./Home/Home'))
 const LostPetsMaps = React.lazy(() => import('./LostPetsMaps/LostPetsMaps'))
 const routes = [
   
-  { path: '/', exact: true, name: 'Home' },
+  { path: '/Home', exact: true, name: 'Home', component: Home },
   { path: '/Dashboard', exact: true, name: 'Dashboard', component: Dashboard },
   { path: '/Mascotas', exact: true, name: 'Administración de mascotas', component: ManagePets },
   { path: '/Mascotas/activas', exact: true,  name: 'Mascotas activas', component: ActivePets },

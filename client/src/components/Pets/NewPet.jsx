@@ -41,7 +41,6 @@ class NewPet extends Component {
   //Ciclo de vida del component
   componentDidMount () {
   }
-
   toggle() {
     this.setState({ collapse: !this.state.collapse });
   }
@@ -51,7 +50,6 @@ class NewPet extends Component {
   // Capturamos el valor de cada input 
   handleChange (e) {
     e.preventDefault()
-
     const { name, description, age, genre, value } = e.target
     this.setState({
       [name]: value,
@@ -60,16 +58,10 @@ class NewPet extends Component {
       [genre]: value
     })
   }
-  // handleImageChange (e) {
-  //   e.preventDefault()
-  //   const { file, size, name, type } = e.target.files[0]
-     
-  // }
   handleImageChange = (e) => {
     let file = e.target.files[0]
     const { name, type, size } = file
     console.log(name + type + size);
-       
   }
   //#region Funciones para redireccionar
   functionRedirect(nameRedirect) {
@@ -162,7 +154,7 @@ class NewPet extends Component {
                       <Input type='file' onChange={this.handleImageChange} name='file'/>
                     </Col>
                   </FormGroup>
-                  <Button type="submit" className="btn btn-primary" size="sm" color="primary"><Icon className='fa fa-save'/> Guardar</Button>
+                  <Button type="submit" className="btn btn-primary" size="lm" color="primary"><Icon className='fa fa-save'/> Guardar</Button>
                 </Form>
               </CardBody>
             </Card>

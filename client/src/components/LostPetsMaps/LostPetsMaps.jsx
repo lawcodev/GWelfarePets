@@ -10,7 +10,7 @@ class LostPetsMaps extends Component {
       height: '100%',
     };
     return (
-      <Map google={this.props.google} zoom={15} style={mapStyles} initialCenter={{ lat: -8.1268394, lng: -79.03059209999999}}>
+      <Map google={this.props.google} zoom={17} style={mapStyles} initialCenter={{ lat: -8.1268394, lng: -79.03059209999999}}>
         <Marker position={{ lat: -8.1268394, lng: -79.03059209999999}} title={'Jair Cruzado Sifuentes'}/>
         <Marker position={{ lat: -8.1268394, lng: -79.03059209999999}} title={'Jair Cruzado Sifuentes'}/>
       </Map>

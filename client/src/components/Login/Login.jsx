@@ -5,29 +5,45 @@ import Paragraph from '../../common/Paragraph'
 import Buttons from '../../common/Buttons'
 import Inputs from '../../common/Inputs'
 import perro from '../../assets/img/brand/perro.png'
-import { TITLE_LOGIN, SUBTITLE_L0GIN } from '../../config/config'
+import { TITLE_LOGIN, SUBTITLE_L0GIN, ERROR_LOGIN} from '../../config/config'
+import { HandleAuthentication } from './services/authHelper.services';
+import { AUTHENTICATION_SET_TOKEN } from '../../config/httpService'
 
 class Login extends Component {
-
-  state = {
-    username: '',
-    password: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      username: '',
+      password: '',
+      error: false,
+      loggedIn: false
+    }
   }
   //#region Funciones para redireccionar
   functionRedirect(nameRedirect) {
     this.props.history.push(nameRedirect)
   }
-  handleFormSubmit = (e) => {
+  
+  handleFormSubmit = async (e) =>{
     e.preventDefault()
     let username = this.state.username
     let password = this.state.password
-    const data = {
-      username,
-      password
+    const data = { username, password }
+    let result = await HandleAuthentication(data)
+    if(result.status === 200) {
+      this.setState({
+        error: false,
+        loggedIn: true
+      })
+      AUTHENTICATION_SET_TOKEN(result)
+      this.functionRedirect('/home')
+    } else {
+      this.setState({
+        error: true,
+        loggedIn: false
+      })
+      this.functionRedirect('/login')
     }
-    console.log(data);
-    // Aun falta implementar el login
-    this.functionRedirect('/home')
   }
   _handleChange = (e) => {
     this.setState({
@@ -35,15 +51,16 @@ class Login extends Component {
     })
   }
   render() {
+    const { error } = this.state
     return (
       <div className="app flex-row align-items-center">
         <Container>
           <Row className="justify-content-center">
             <Col md="8">
               <CardGroup>
-              <Card className="text-white bg-primary py-5 d-md-down-none" style={{ width: '100%' }}>
+              <Card className="text-white bg-white py-5 d-md-down-none" style={{ width: '100%' }}>
                   <CardBody className="text-center">
-                    <img src={perro} style={{ width: '100%' }}/>
+                    <img src={perro} alt='perro' style={{ width: '100%' }}/>
                   </CardBody>
                 </Card>
                 <Card className="p-5">
@@ -51,6 +68,9 @@ class Login extends Component {
                     <Form className="box-form">
                       <H1 text={TITLE_LOGIN}/>
                       <Paragraph className='text-muted' text={SUBTITLE_L0GIN}/>
+                      {
+                        error ? <Paragraph className='red' text={ERROR_LOGIN}/> : ''
+                      }
                       <InputGroup className="mb-4">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
@@ -69,7 +89,7 @@ class Login extends Component {
                       </InputGroup>
                       <Row>
                         <Col xs="12">
-                          <Buttons color='primary' className='btn btn-primary btn-lg btn-block' onClick={this.handleFormSubmit} text='Ingresar'/>
+                          <Buttons variant='contained' color='primary' onClick={this.handleFormSubmit} text='Ingresar'/>
                         </Col>
                       </Row>
                     </Form>
@@ -80,9 +100,7 @@ class Login extends Component {
           </Row>
         </Container>
       </div>
-     
     );
   }
 }
-
 export default Login;

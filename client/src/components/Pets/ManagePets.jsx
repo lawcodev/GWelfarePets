@@ -14,7 +14,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-// Cargar al esperar respuesta
+// Cargar
 const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
 class ManagePets extends Component {
@@ -22,26 +22,17 @@ class ManagePets extends Component {
     super(props)
     this.state = {
       pets: [], petsBackUp: [], pet: Object, isFetch: true, ok: Number, open: false, setOpen: false, redirect: false, hembras: [], machos: [],
-      index: []
+      index: [], yearsAndMounths: ''
     }    
   }
   //#region Métodos del consumo del webservice | Ciclo de vida de un componente
   async componentDidMount() {
     const responseJson = await HandlePetGetAll()
     this.setState({ 
-      pets: responseJson.data, petsBackUp: responseJson.data, ok: responseJson.status, isFetch: false
+      pets: responseJson, petsBackUp: responseJson, ok: responseJson.status, isFetch: false
     })  
-    this.countRowTable()
     this.functionCountMales()
     this.functionCountFemales()
-  }
-  async countRowTable () {
-    for(let i = 1; i<this.state.pets.length + 1; i++) {
-      this.setState({index: [i]}) 
-      return(
-        <td>{i}</td>
-      )
-    }
   }
   async handleDeletePet(id){
     const responseJson = await HandlePetDelete(id)
@@ -88,9 +79,8 @@ class ManagePets extends Component {
     const petsFilter = petsBackUp.filter(function(pet) {
       const petName = pet.petName
       const description = pet.description
-      const age = pet.age
       const genre = pet.genre
-      const fieldSearch = petName +' '+description+' '+age+' '+genre
+      const fieldSearch = petName +' '+description+' '+genre
       const inputSearchPets = inputSearch
       return fieldSearch.indexOf(inputSearchPets) > -1
     })
@@ -104,8 +94,8 @@ class ManagePets extends Component {
       <Row>
         <Col>
           <Row>
-            <CardView lg='2' className='text-white bg-success' genre='HEMBRAS' results={hembras.length}/>
-            <CardView lg='2' className='text-white bg-success' genre='MACHOS' results={machos.length}/>
+            <CardView lg='2' className='text-white bg-primary' genre='HEMBRAS' results={hembras.length}/>
+            <CardView lg='2' className='text-white bg-primary' genre='MACHOS' results={machos.length}/>
           </Row>
           <Card>
             <CardHeader>
@@ -125,7 +115,7 @@ class ManagePets extends Component {
                       <th>N°</th>
                       <th>Nombre</th>
                       <th>Descripción</th>  
-                      <th>Edad</th>
+                      <th>Edad Aprox.</th>
                       <th>Estado</th>
                       <th>Género</th>
                       <th>Acción</th>
@@ -139,11 +129,14 @@ class ManagePets extends Component {
                             <td>{index + 1}</td>
                             <td>{pet.petName}</td>
                             <td>{pet.description}</td>
-                            <td>{pet.age}</td>
+                            <td>
+                              {pet.years > 1 ? pet.years + ' año(s) y ': pet.years + ' año y '}
+                              {pet.mounths > 1 ? pet.mounths + ' mes(es)': pet.mounths + ' mes'}
+                            </td>
                             <td><Span className='badge badge-success' text={pet.state.data ? 'Activo': ''}/></td>
                             <td>{pet.genre}</td>
                             <td>
-                              <Link className='btn btn-success' icon='fa fa-search-plus' onClick={() =>this.functionClickOpen(pet.idpet)}/>
+                              <Link className='btn btn-warning' icon='fa fa-search-plus' onClick={() =>this.functionClickOpen(pet.idpet)}/>
                               <Link className='btn btn-danger'  icon='fa fa-trash-o' onClick={() =>this.handleDeletePet(pet.idpet)}/>
                               {/* <Link className='btn btn-info' icon='fa fa-edit' onClick={() =>this.handleEditPet(pet.idpet, 'mascotas/editar/')}/> */}
                             </td> 
@@ -152,7 +145,7 @@ class ManagePets extends Component {
                       }):
                       <tr>
                         <td>
-                          <Label text='No hay datos para mostrar...'/>
+                          <Label text='Cargando datos...'/>
                         </td>
                       </tr>
                     }
@@ -175,7 +168,7 @@ class ManagePets extends Component {
                 </DialogActions>
               </Dialog>
               {/* Redirect crear */}
-              <Link className='btn btn-success' text='Nuevo' onClick={() => this.functionRedirect('mascotas/nuevo')}/>
+              <Link className='btn btn-primary' icon='fa fa-plus' onClick={() =>this.functionRedirect('mascotas/nuevo')} text='Agregar'/>
             </CardBody>
           </Card>
         </Col>

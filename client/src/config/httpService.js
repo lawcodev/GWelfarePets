@@ -28,7 +28,6 @@ export async function AUTHENTICATION_USER (endpoint, entity) {
         'Content-Type': 'application/json'
       }
       })
-      //this.setToken(res.token) // Setting the token in localStorage
       return res.json()
   } catch (err) {
     return console.error(err);
@@ -53,16 +52,16 @@ export async function AUTHENTICATION_IS_TOKEN_EXPIRED (token) {
   }
 }
 
-export async function AUTHENTICATION_SET_TOKEN (idToken) {
-  localStorage.setItem('id_token', idToken)
+export function AUTHENTICATION_SET_TOKEN (idToken) {
+  return localStorage.setItem('id_token', JSON.stringify(idToken))
 }
 
 export async function AUTHENTICATION_GET_TOKEN () {
-  localStorage.getItem('id_token')
+  return JSON.parse(localStorage.getItem('id_token'))
 }
 
 export async function AUTHENTICATION_LOGOUT () {
-  localStorage.removeItem('id_token')
+ localStorage.removeItem('id_token')
 }
 
 export async function AUTHENTICATION_GET_CONFIRM () {

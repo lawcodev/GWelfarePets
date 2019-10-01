@@ -19,7 +19,6 @@ class Dashboard extends Component {
   render() {
     
     const {countLostPet} = this.state
-
     return (
       <div className="animated fadeIn">
         {/* Cardview - contadores */}
