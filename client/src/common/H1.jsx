@@ -9,5 +9,4 @@ class H1 extends Component {
     )
   }
 }
-
 export default H1

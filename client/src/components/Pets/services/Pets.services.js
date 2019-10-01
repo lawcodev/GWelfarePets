@@ -3,7 +3,7 @@ import * as httpService from '../../../config/httpService'
 
 export async function HandlePetGetAll () {
   const response = await httpService.EntityGetAll(new ApiEndPoint().apiGetPetsPath())
-  return response
+  return response.data
 }
 export async function HandlePetDelete(idpet) {
   const response = await httpService.EntityDelete(new ApiEndPoint().apiDeletePetPath(idpet))

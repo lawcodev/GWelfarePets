@@ -1,6 +1,15 @@
 export default {
   items: [
     {
+      name: 'Home',
+      url: '/home',
+      icon: 'fa fa-home',
+      badge: {
+        variant: 'info',
+        text: 'Home',
+      },
+    },
+    {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'fa fa-tachometer',

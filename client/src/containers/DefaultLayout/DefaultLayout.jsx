@@ -2,6 +2,7 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
+import { AUTHENTICATION_LOGOUT} from '../../config/httpService'
 
 import {
   AppFooter,
@@ -26,17 +27,21 @@ class DefaultLayout extends Component {
 
   loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
-  signOut(e) {
+  async signOut(e) {
     e.preventDefault()
-    this.props.history.push('/login')
+    await AUTHENTICATION_LOGOUT()
+    this.props.history.push('/')
   }
-
+  onSignAdmi(e) {
+    e.preventDefault()
+    this.props.history.push('/dashboard')
+  }
   render() {
     return (
       <div className="app">
         <AppHeader fixed>
           <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)}/>
+            <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
@@ -66,7 +71,7 @@ class DefaultLayout extends Component {
                         )}/>
                     ):(null);
                   })}
-                  <Redirect from="/" to="/login" />
+                  <Redirect from="/" to="/extranet" />
                 </Switch>
               </Suspense>
             </Container>

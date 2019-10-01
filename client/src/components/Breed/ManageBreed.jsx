@@ -19,7 +19,7 @@ class ManageBreed extends Component {
   async componentDidMount () {
     const responseJson = await HandleBreedGetAll()
     this.setState({ 
-      breeds: responseJson.data, breedsBackUp: responseJson.data, ok: responseJson.status, isFetch: false
+      breeds: responseJson, breedsBackUp: responseJson.data, ok: responseJson.status, isFetch: false
     })    
   }
   //#region Funciones para redireccionar

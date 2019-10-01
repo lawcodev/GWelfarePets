@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button } from 'reactstrap';
+import { Button } from '@material-ui/core'
 
 const Buttons = props =>(
-  <Button color={props.color} className={props.className} onClick={props.onClick}>
+  <Button variant={props.variant} color={props.color} onClick={props.onClick}>
     {props.text}
   </Button>
 )
