@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row } from 'reactstrap';
-import { handleCountLostPet } from '../Pets/services/pets.services'
+import { handleCountLostPet } from '../Pets/services/Pets.services'
 import CardView from '../../common/CardView'
 
 class Dashboard extends Component {

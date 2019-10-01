@@ -14,7 +14,7 @@ import Label from '../../common/Label'
 import Input from '../../common/Inputs'
 import FormTextMessage from '../../common/FormTextMessage'
 import Icon from '../../common/Icon'
-import { HandlePetCreate } from './services/pets.services'
+import { HandlePetCreate } from './services/Pets.services'
 
 class NewPet extends Component {
   constructor(props) {

@@ -4,7 +4,7 @@ import Span from '../../common/Span'
 import Jumbotrons from '../../common/Jumbotrons'
 import CardImage from '../../common/CardImage'
 import { Col, Row } from 'reactstrap';
-import { HandlePetGetAll } from '../../components/Pets/services/pets.services'
+import { HandlePetGetAll } from '../../components/Pets/services/Pets.services'
 
 class Espouse extends Component {
   constructor(props) {
