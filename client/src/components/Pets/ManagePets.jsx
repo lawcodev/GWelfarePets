@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { HandlePetGetAll, HandlePetDelete, HandlePetGetById} from './services/Pets.services'; // Service
+import { HandlePetGetAll, HandlePetDelete, HandlePetGetById } from './services/petservice'; // Service
 import { Card, CardBody, CardHeader, Col, Row, FormGroup } from 'reactstrap';
 import Label from '../../common/Label'
 import Link from '../../common/Link'
@@ -13,9 +13,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 // Cargar
-const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+const loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
 
 class ManagePets extends Component {
   constructor(props){
@@ -29,19 +28,20 @@ class ManagePets extends Component {
   async componentDidMount() {
     const responseJson = await HandlePetGetAll()
     this.setState({ 
-      pets: responseJson, petsBackUp: responseJson, ok: responseJson.status, isFetch: false
+      pets: responseJson, petsBackUp: responseJson, ok: responseJson.status
     })  
     this.functionCountMales()
     this.functionCountFemales()
   }
+ 
   async handleDeletePet(id){
     const responseJson = await HandlePetDelete(id)
-    this.setState({ response: responseJson.data, isFetch: false})
+    this.setState({ response: responseJson.data})
     this.componentDidMount()
   }
   async handleDetailPets(id){
     const responseJson = await HandlePetGetById(id)
-    this.setState({ pet: responseJson.data[0], ok: responseJson.status, isFetch: false})
+    this.setState({ pet: responseJson[0], ok: responseJson.status})
   }
   async handleEditPet(id, nameRedirect) {
     this.functionRedirect(`${nameRedirect}${id}`)
@@ -87,9 +87,8 @@ class ManagePets extends Component {
     this.setState({ pets: petsFilter })
   }
   render() {
-    const { pets, isFetch, ok, pet, open, machos, hembras } = this.state
-  
-    if(isFetch && ok === 200) return loading()
+    const { pets, ok, pet, open, machos, hembras } = this.state
+    if(ok === 200) return loading()
     return(
       <Row>
         <Col>
@@ -168,7 +167,7 @@ class ManagePets extends Component {
                 </DialogActions>
               </Dialog>
               {/* Redirect crear */}
-              <Link className='btn btn-primary' icon='fa fa-plus' onClick={() =>this.functionRedirect('mascotas/nuevo')} text='Agregar'/>
+              <Link className='btn btn-success' icon='fa fa-plus' onClick={() =>this.functionRedirect('/mascotas/nuevo')} text='Agregar'/>
             </CardBody>
           </Card>
         </Col>

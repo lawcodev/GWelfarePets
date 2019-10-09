@@ -1,0 +1,30 @@
+.bx-wrapper .bx-pager, .bx-wrapper .bx-controls-auto {
+	padding: 15px;
+    top: 40%;
+    right: 0px;
+    z-index: 999999;
+}
+.bx-wrapper .bx-pager.bx-default-pager a {
+	background: #ffffff;
+	border-radius: 10px;
+    margin: 10px;
+    height: 13px;
+    width: 13px;
+}
+.bx-wrapper .bx-pager.bx-default-pager a:hover, .bx-wrapper .bx-pager.bx-default-pager a.active {
+	background: #7ac4cf;
+}
+
+@media (max-width: 1023px) {
+    .bx-wrapper .bx-pager, 
+    .bx-wrapper .bx-controls-auto {
+        padding: 0px;
+        width: 100%;
+        top: 74%;
+    }
+
+    .bx-wrapper .bx-pager .bx-pager-item,
+    .bx-wrapper .bx-controls-auto .bx-controls-auto-item {
+        display: inline-block;
+    }
+}

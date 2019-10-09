@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import Header from '../Header/Header'
 import Span from '../../common/Span'
-import Jumbotrons from '../../common/Jumbotrons'
+import H2 from '../../common/H2'
 import CardImage from '../../common/CardImage'
 import { Col, Row } from 'reactstrap';
-import { HandlePetGetAll } from '../../components/Pets/services/Pets.services'
+import { HandlePetGetAll } from '../../components/Pets/services/petservice'
 
 class Espouse extends Component {
   constructor(props) {
@@ -46,27 +46,37 @@ class Espouse extends Component {
       pets: responseJson
     })
   }
+  functionRedirect(nameRedirect) {
+    this.props.history.push(nameRedirect)
+  }
+  async handleDetailPet(name, id, nameRedirect) {
+    this.functionRedirect(`${nameRedirect}${id}`)
+  }
   render() {
     const { pets } = this.state
     return(
       <React.Fragment>
         <Header onHome={e=>this.onHome(e)} onSignIn={e=>this.onSignIn(e)} onRedirectEspouse={e=>this.onRedirectEspouse(e)} onRedirectQuestion={e=>this.onRedirectQuestion(e)}/>
-        <div className="container-fluid">
-          <Jumbotrons title='Adopta una mascota' subtitle='¡Encuentra a tu compañero ideal!'/>
+        <div className="adop container-fluid">
+          <div className="sponsor-bar" style={{background: '#3f51b5'}} >
+            <H2 text='ADOPTA UNA MASCOTA'/>
+            <Span text='¡Encuentra a tu mascota ideal aquí!'/>
+          </div>
+          <br/> 
           <Row>
             {
               pets.length > 0 ? pets.map((pet) => {
                 return(
                   <Col xs="12" sm="6" md="3" key={pet.idpet}>
-                    <CardImage title={pet.petName.toUpperCase()} className={pet.color} state={pet.statusPet} genre={pet.genre + ' | '} years={pet.years > 1 ? pet.years + ' año(s) y ': pet.years + ' año y'}
+                    <CardImage title={pet.petName.toUpperCase()} genre={pet.genre + ' | '} years={pet.years > 1 ? pet.years + ' año(s) y ': pet.years + ' año y'}
                     mounths={pet.mounths > 1 ? pet.mounths + ' mes(es)': pet.mounths + ' mes'}
                     img='http://www.wuf.pe/uploads/images/wufs/PmMtx9drKUKqCLfgrlWB9SYiXH9nVean.jpg'
-                    textButton='Conóceme' color='primary' variant='contained'/>
+                    textButton='Conóceme' color='primary' variant='contained' onClick={() => this.handleDetailPet(pet.petName, pet.idpet, '/adopta/')}/>
                   </Col>
                 )
-              }): <Span text='Cargando datos...'/>
+              }): <Span text='Cargando...'/>
             }
-          </Row>
+          </Row>         
         </div>
       </React.Fragment>
     )

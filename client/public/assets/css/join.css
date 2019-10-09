@@ -1,0 +1,18 @@
+span.customSelect { 
+    font-size: 16px;
+    background:#fff url(../img/2u7rpec6654.png?v1) right center no-repeat;
+    border: 1px solid #939393;
+    color:#3f548e;
+    padding:11px 10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px 5px;
+    width:100%;
+    box-sizing: border-box;
+}
+span.customSelectInner {
+    width: 100% !important;
+}
+.refuge span.customSelect { 
+    color:#333;
+}

@@ -14,7 +14,7 @@ import Label from '../../common/Label'
 import Input from '../../common/Inputs'
 import FormTextMessage from '../../common/FormTextMessage'
 import Icon from '../../common/Icon'
-import { HandlePetCreate } from './services/Pets.services'
+import { HandlePetCreate } from './services/petservice'
 
 class NewPet extends Component {
   constructor(props) {
@@ -39,8 +39,6 @@ class NewPet extends Component {
   }
 
   //Ciclo de vida del component
-  componentDidMount () {
-  }
   toggle() {
     this.setState({ collapse: !this.state.collapse });
   }
@@ -154,7 +152,7 @@ class NewPet extends Component {
                       <Input type='file' onChange={this.handleImageChange} name='file'/>
                     </Col>
                   </FormGroup>
-                  <Button type="submit" className="btn btn-primary" size="lm" color="primary"><Icon className='fa fa-save'/> Guardar</Button>
+                  <Button type="submit" className="btn btn-success" size="lm" color="primary"><Icon className='fa fa-save'/> Guardar</Button>
                 </Form>
               </CardBody>
             </Card>

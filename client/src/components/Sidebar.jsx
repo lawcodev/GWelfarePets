@@ -30,7 +30,7 @@ export default {
         {
           name: 'Administrar razas',
           url: '/razas',
-        },
+        }       
       ],
     },
     {
@@ -40,7 +40,6 @@ export default {
       children: [
         {
           name: 'Gestionar adopción',
-          // url: '/Users/list',
         },
       ],
     },

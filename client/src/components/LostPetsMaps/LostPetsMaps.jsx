@@ -1,22 +1,28 @@
 import React, { Component } from 'react'
-import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
-import { API_KEY_GOOGLE_MAPS } from '../../config/config'
+import Map from './Map'
 
+const data = [
+  {
+    id: 1,
+    name: "Paquete",
+    title: "¡Ayuda me perdí!",
+    lat: -8.1268394000,
+    lng: -79.0305921000,
+  },
+  {
+    id: 2,
+    name: "Dedo",
+    title: "¡Ayuda me perdí 2!",
+    lat: -8.1298394000,
+    lng: -79.0405921000,
+  },
+];
 
 class LostPetsMaps extends Component {
   render() {
-    const mapStyles = {
-      width: '100%',
-      height: '100%',
-    };
-    return (
-      <Map google={this.props.google} zoom={17} style={mapStyles} initialCenter={{ lat: -8.1268394, lng: -79.03059209999999}}>
-        <Marker position={{ lat: -8.1268394, lng: -79.03059209999999}} title={'Jair Cruzado Sifuentes'}/>
-        <Marker position={{ lat: -8.1268394, lng: -79.03059209999999}} title={'Jair Cruzado Sifuentes'}/>
-      </Map>
-    );
+    return(
+      <Map places={data} center={{ lat: -8.1268394000, lng: -79.0305921000 }} />
+    )
   }
 }
-export default GoogleApiWrapper({
-  apiKey: API_KEY_GOOGLE_MAPS
-})(LostPetsMaps);
+export default LostPetsMaps
