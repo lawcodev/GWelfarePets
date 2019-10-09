@@ -3,11 +3,7 @@ import Header from '../Header/Header'
 import CarouselImage from '../CarouselExtranet/CarouselImage'
 import Paragraph from '../../common/Paragraph'
 import Span from '../../common/Span'
-import H1 from '../../common/H1'
-import H4 from '../../common/H4'
-import Button from '../../common/Buttons'
-import CardImage from '../../common/CardImage'
-import { Col, Row } from 'reactstrap';
+import H2 from '../../common/H2'
 
 const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
 
@@ -28,75 +24,104 @@ class Extranet extends Component {
     e.preventDefault()
     this.props.history.push('/')
   }
+  
   render() {
     return (
       <React.Suspense fallback={loading()}>
         <Header onHome={e=>this.onHome(e)} onSignIn={e=>this.onSignIn(e)} onRedirectEspouse={e=>this.onRedirectEspouse(e)} onRedirectQuestion={e=>this.onRedirectQuestion(e)}/>
-          <main role="main">
-            <div className="carousel slide">
+          <div className="carousel slide">
+            <div className="options-home">
               <CarouselImage/>
-              <div className="container">
-                <br/><br/>
-                <div className="featurette-divider">
-                  <div className="row featurette">
-                    <div className="text-center">
-                      <H1 className="featurette-heading" text='¿QUE ES GEOPETFARE?'/>
-                      <Paragraph className="lead" text='Geopetfare es una asociación sin fines de lucro dedicada a la promoción de la adopción, el trabajo de concientización sobre la realidad de los perros en estado de abandono y la ejecución de proyectos que contribuyan a la construcción de un mundo mejor para todos los perros.'/>
-                      <Button color='primary' variant='outlined' text='¡Quiero adoptar!' onClick={e=>this.onRedirectEspouse(e)}/>
-                      <br/><br/>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="form-group">
-                        <H4 className="featurette-heading" text='Es un perro rescatado'/>
-                        <Span className="lead" text='Un mascota que ha sido rescatado del abandono o una mala crianza. Todos ellos han pasado por un proceso de socialización en los albergues, lo que garantiza su recuperación.'/>
-                      </div>
-                    </div>
-                    <div className="col-md-2">
-                      <div className="form-group">
-                        <H4 className="featurette-heading" text='Es un perro seguro'/>
-                        <Span className="lead" text='Todos las mascotas están desparasitad@s, vacunad@s y esterilizad@s. Pasan pruebas psicológicas y clínicas, además de pruebas de sangre realizadas por SuizaVet. Nuestro proceso de adopción está certificado por la UCSUR.'/>
-                      </div>
-                    </div>
-                    <div className="col-md-3 text-center">
-                      <img src="http://www.wuf.pe/assets/img/img-dog-qwuf.png" alt='extranet' className="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"/>
-                    </div>
-                    <div className="col-md-3">
-                      <div className="form-group">
-                        <H4 className="featurette-heading" text='Es un perro noble'/>
-                        <Span className="lead" text='Un can agradecerá siempre poder compartir su vida a tu lado. Será un amigo fiel que te acompañará y alegrará tus días.'/>
-                      </div>
-                    </div>
+              <div className="options-content">
+                <a href={null} onClick={e=>this.onRedirectEspouse(e)} className="options-box">
+                  <div className="options-text" style={{color: 'white'}}>
+                    <Paragraph className='adopta' text='ADOPTA'/>
+                    <Paragraph text='¡Buscas un perro? Elige un Geopetfare y cambia dos vidas!'/>
                   </div>
-                </div>
-                <div className="text-center">
-                  <h1>Mascotas adoptadas</h1>
-                  <br/>
-                  <Row>
-                    <Col xs="12" sm="6" md="3">
-                      <CardImage title='Jennifer Peña'
-                      img='https://demo.w3layouts.com/demos_new/template_demo/18-12-2018/doggo-demo_Free/787265091/web/images/t1.jpg'
-                      color='primary' variant='contained' textButton='Contactar'/>
-                    </Col>
-                    <Col xs="12" sm="6" md="3">
-                      <CardImage title='Osmel Jacobo'
-                      img='https://p.w3layouts.com/demos_new/template_demo/18-12-2018/doggo-demo_Free/787265091/web/images/t5.jpg'
-                      color='primary' variant='contained' textButton='Contactar'/>
-                    </Col>
-                    <Col xs="12" sm="6" md="3">
-                      <CardImage title='Rubi Castro'
-                      img='https://p.w3layouts.com/demos_new/template_demo/18-12-2018/doggo-demo_Free/787265091/web/images/t8.jpg'
-                      color='primary' variant='contained' textButton='Contactar'/>
-                    </Col>
-                    <Col xs="12" sm="6" md="3">
-                      <CardImage title='Katherine Lopez'
-                      img='https://p.w3layouts.com/demos_new/template_demo/18-12-2018/doggo-demo_Free/787265091/web/images/t7.jpg'
-                      color='primary' variant='contained' textButton='Contactar'/>
-                    </Col>
-                  </Row>
-                </div>
+                </a>
+                <a href={null} className="options-box">
+                  <div className="options-text" style={{color: 'white'}}>
+                    <Paragraph className='ayuda' text='APADRINA'/>
+                    <Paragraph text='¿Amas a los perros? Únete a la Manada Geopetfare y sé parte del más grande programa de voluntariado canino.'/>
+                  </div>
+                </a>
+                <a href={null} className="options-box">
+                  <div className="options-text" style={{color: 'white'}}>
+                      <Paragraph className='contribuye' text='REPORTA'/>
+                      <Paragraph text='Reporta un caso de maltrato al animal'/>
+                  </div>
+                </a>
+            </div>
+            <div className="fullcontent content-middle">   
+              <div className="container">
+                <H2 text='¿Qué es GEOPETFARE?'/>
+                <ul>
+                  <li>
+                    <i className="sprite house"></i>
+                    <Paragraph className="title" text='Es un perro rescatado'/>
+                    <Paragraph text='Geopetfare es un perro que ha sido rescatado del abandono o una mala crianza. Todos ellos han pasado por un proceso de socialización en los albergues, lo que garantiza su recuperación.'/>
+                  </li>
+                  <li>
+                    <i className="sprite doctor"></i>
+                    <Paragraph className="title" text='Es un perro seguro'/>
+                    <Paragraph text='Tod@ las mascotas están desparasitados, vacunados y esterilizados. Pasan pruebas psicológicas y clínicas, además de pruebas de sangre realizadas por SuizaVet. Nuestro proceso de adopción está certificado por la UCSUR.'/>
+                  </li>
+                  <li className="dogimgcontainer">
+                    <img src="assets/img/img-dog-qwuf.png" alt='Imagen'/>
+                  </li>            
+                  <li>
+                    <i className="sprite meat"></i>
+                    <Paragraph className="title" text='Es un perro único'/>
+                    <Paragraph text='Tod@s las mascotas son sobrevivientes, son héroes con historias y experiencias que los hacen únicos.'/>
+                  </li>
+                  <li>
+                    <i className="sprite dog"></i>
+                    <Paragraph className="title" text='Es un perro noble'/>
+                    <Paragraph text='Un Geopetfare agradecerá siempre poder compartir su vida a tu lado. Será un amigo fiel que te acompañará y alegrará tus días.'/>
+                  </li>            
+                </ul>        
               </div>
             </div>
-          </main>
+            <div className="content-bottom">
+              <H2 text='¿Aún no te convence adoptar un Geopetfare?'/>
+              <div className="container-bottom">
+                <div>
+                  <div className="dog">
+                    <img src="assets/img/img-dog-pqwuf.png" alt='Imagen'/>
+                  </div>
+                  <ul>
+                    <li>
+                      <i className="sprite"></i>
+                      <p>
+                        <strong>Hay 6 millones de perros en las calles del Perú.</strong>
+                        <Span text='Cada Geopetfare adoptado permite a otro perro ser rescatado.'/>
+                      </p>
+                    </li>
+                    <li>
+                      <i className="sprite"></i>
+                      <p>
+                        <strong>Adoptando ayudas a desincentivar una industria donde se comercializan más de 300 mil perros al año, mal tratando a madres y cachorros.</strong>
+                      </p>
+                    </li>
+                    <li>
+                      <i className="sprite"></i>
+                      <p>
+                        <strong>Tendrás el privilegio de compartir tu vida al lado de un compañero que la cambiará para siempre. </strong>                        
+                      </p>
+                    </li>
+                    <li>
+                      <i className="sprite"></i>
+                      <p>
+                        <strong>Eligiendo adoptar contribuirás a la construcción de un mundo mejor para todos los perros.</strong>
+                      </p>
+                    </li>   
+                  </ul>
+                </div>
+                <a className="btnadopt" onClick={e=>this.onRedirectEspouse(e)}>¡Adopta un Geopetfare aquí!</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </React.Suspense>
     );
   }

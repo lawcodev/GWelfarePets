@@ -16,7 +16,7 @@ const CardImage = (props) => {
           <div className="form-group">
             <span className='text-muted'>{props.genre} {props.years} {props.mounths}</span>
           </div>
-          <Button color={props.color} variant={props.variant} text={props.textButton}/>
+          <Button color={props.color} variant={props.variant} text={props.textButton} onClick={props.onClick} id={props.idpet}/>
         </CardBody>
       </Card>
     </div>

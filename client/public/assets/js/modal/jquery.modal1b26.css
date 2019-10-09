@@ -1,0 +1,454 @@
+.modal {
+    display: none;
+    width: 400px;
+    background: #fff;
+    padding: 15px 30px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    -o-box-shadow: 0 0 10px #000;
+    -ms-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+}
+
+.modal a.close-modal {
+    position: absolute;
+    top: -12.5px;
+    right: -12.5px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    text-indent: -9999px;
+    background: url(close.png) no-repeat 0 0;
+}
+
+.modal-spinner {
+    display: none;
+    width: 64px;
+    height: 64px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-right: -32px;
+    margin-top: -32px;
+    background: url(spinner.gif) #111 no-repeat center center;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -o-border-radius: 8px;
+    -ms-border-radius: 8px;
+    border-radius: 8px;
+}
+
+.modalsteps,
+#modalvisitor {
+    width: auto;
+    min-width: 750px;
+    padding: 0px;
+}
+
+.modalsteps .top,
+#modalvisitor .top {
+    padding: 30px 0px;
+}
+.modalsteps .bottom, 
+#modalvisitor .bottom {
+    background-image: url('../../img/bloq.jpg');
+    padding: 0px 40px 30px 40px;
+
+    -webkit-border-bottom-right-radius: 7px;
+    -webkit-border-bottom-left-radius: 7px;
+    -moz-border-radius-bottomright: 7px;
+    -moz-border-radius-bottomleft: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;    
+}
+.modalsteps h2,
+#modalvisitor h2 {
+    text-align: center;
+    font-size: 55px;
+    color: #394f88;
+    font-weight: 700;        
+}
+.modalsteps .actions {
+    padding: 30px 0px;
+    text-align: center;
+}
+.modalsteps .actions h3 {    
+    font-size: 25px;
+    color: #394f88;
+    font-weight: 400;
+}
+.modalsteps .blocksm {
+    overflow: hidden;
+    padding: 40px 0px 20px 0px;
+    max-width: 96%;
+    margin: 0px auto;    
+}
+.modalsteps .blockm {
+    width: 20%;
+    float: left;
+    text-align: center;
+}
+.modalsteps#modalsteps2 .blockm {
+    width: 25%;
+}
+.modalsteps .blockm p {
+    margin: 0px auto;
+    color: #394f88;
+    max-width: 102px;
+    margin-top: 5px;
+    line-height: 1.2em;
+    font-size: 15px;
+}
+.modalsteps .blockm p span {
+    font-weight: 600;
+}
+.modalsteps .blockm .sprite {
+    display: inline-block;
+    width: 86px;
+    height: 86px;
+    background-position: 0px -1434px;
+}
+.modalsteps#modalsteps2 .blockm .sprite {
+    background-position: 0px -1671px;
+}
+.modalsteps .blockm2 .sprite {
+    background-position: -87px -1434px;
+}
+.modalsteps#modalsteps2 .blockm2 .sprite {
+    background-position: -87px -1671px;
+}
+.modalsteps .blockm3 .sprite {
+    background-position: -174px -1434px;
+}
+.modalsteps#modalsteps2 .blockm3 .sprite {
+    background-position: -174px -1671px;
+}
+.modalsteps .blockm4 .sprite {
+    background-position: -348px -1434px;
+}
+.modalsteps#modalsteps2 .blockm4 .sprite {
+    background-position: -261px -1671px;
+}
+.modalsteps .blockm5 .sprite {
+    background-position: -261px -1434px;
+}
+
+.modalsteps a.close-modal,
+#modalmodal a.close-modal,
+#modalvisitor a.close-modal {
+    background-image: url('../../img/sprited57f.png?v17');
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 35px;
+    background-position: 0px -382px;
+    top: 40px;
+    right: 25px;    
+}
+.modalsteps .actions .buttons {
+    margin-top: 20px;
+}
+.modalsteps .actions a,
+#modalvisitor .actions a {
+    display: inline-block;
+    padding: 12px 40px;
+    border: 1px solid #27beb9;
+    text-transform: uppercase;
+    background-color: #27beb9;    
+    font-weight: 600;
+    font-size: 16px;
+    color: #fff;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;    
+}
+.modalsteps .actions a:hover,
+#modalvisitor .actions a:hover {
+    text-decoration: none;
+}
+.modalsteps .actions a.whitebg {
+    background-color: #fff;    
+    color: #27beb9;
+}
+
+#modalmodal {
+    width: 765px;
+    padding: 0px;
+}
+#modalmodal .top {
+    overflow: hidden;
+    padding: 40px 40px 0px 40px;
+    box-sizing: border-box;    
+}
+#modalmodal .dog {
+    float: left;
+}
+#modalmodal .blockmodal {
+    text-align: center;
+    float: right;
+    width: 385px;
+    padding-top: 30px;
+    box-sizing: border-box;
+    /*    padding-bottom: 30px;    */
+}
+#modalmodal .dog img {
+    display: block;
+}
+#modalmodal .blockmodal h2 {
+    font-size: 35px;
+    line-height: 38px;
+    font-weight: 700;
+    color: #47558b;
+}
+#modalmodal .blockmodal h3,
+#modalmodal .blockmodal h4 {
+    color: #666666;
+    font-size: 25px;
+    font-weight: 300;
+    padding: 15px 0px;
+}
+#modalmodal .blockmodal h4 {
+    font-size: 17px;
+    line-height: 23px;
+    margin-top: 20px;
+}
+#modalmodal .blockmodal h4 span {
+    font-weight: 900;
+    color: #47558b;
+}
+#modalmodal .hashtags {
+    font-size: 23px;
+    color: #47558b;
+}
+
+#modalmodal .hashtags p {
+    font-weight: 600;
+    margin-top: 25px;
+    margin-bottom: 15px;
+}
+#modalmodal .hashtags ul {
+    border: 1px solid #47558b;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;    
+    padding: 10px;
+    box-sizing: border-box;
+}
+#modalmodal .hashtags ul li {
+    line-height: 30px;
+    color: #efa93a;
+    font-weight: 700;
+}
+#modalmodal .hashtag {
+    color: #efa93a;
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+}
+#modalmodal .bottom {
+    padding: 20px 0px;
+    text-align: center;
+    background-image: url('../../img/bloq.jpg');
+    -webkit-border-bottom-right-radius: 7px;
+    -webkit-border-bottom-left-radius: 7px;
+    -moz-border-radius-bottomright: 7px;
+    -moz-border-radius-bottomleft: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;    
+}
+#modalmodal .bottom p {
+    color: #47558b;
+    font-size: 23px;
+}
+#modalmodal .bottom a {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+#modalmodal.adoptm {
+    width: 795px;
+}
+#modalmodal.adoptm .blockmodal {
+    padding-top: 105px;
+}
+#modalmodal.adoptm .blockmodal h3 {
+    line-height: 28px;
+}
+#modalmodal.adoptm .hashtags ul {
+    width: 400px;
+    margin: 0px auto;
+}
+#modalmodal.adoptm .hashtags p {
+    margin-top: 0px;
+}
+#modalcont,
+#modalsuccessvisitor {
+    max-width: 90%;
+    color: #43548c;
+    padding: 62px 60px;
+    text-align: center;
+    box-sizing: border-box;
+    width: 570px;
+    line-height: 1.4em;
+}    
+.modalcont-purple {
+    font-size: 25px;
+    line-height: 1.2em;
+    color: #3f548e;
+    font-family: 'Open Sans', Arial;
+    font-weight: 700;    
+}
+.modalcont-gray {
+    font-size: 15px;
+    line-height: 1.6em;
+    color: #333333;
+    font-family: 'Open Sans', Arial;
+    font-weight: 500;    
+    margin-top: 15px;
+}
+#modalcont i {
+    background-image: url('../../img/sprited57f.png?v17');
+    display: inline-block;
+    width: 86px;
+    height: 86px;
+    background-position: 1px -1578px;
+    margin-bottom: 30px;
+}
+#modalsuccessvisitor .disclaimer {
+    font-size: 0.85em;
+    font-weight: bold;
+}
+#modalvisitor .bottom p {
+    color: #242b3d;
+    font-size: 15px;
+    line-height: 1.4em;
+    text-align: center;
+    padding-bottom: 15px;   
+}
+@media (max-width: 1023px) {
+    .modalsteps .blockm .sprite {
+        background-image: url('../../img/sprited57f.png?v17');
+    }
+}
+@media (max-width: 800px) {
+    .modalsteps .blockm .sprite {
+        display: none;
+        visibility: hidden;
+    }    
+    .modalsteps,
+    #modalmodal,
+    #modalcont,
+    #modalsuccessvisitor,
+    #modalvisitor {
+        min-width: 0px;
+        max-width: 90%;
+    }
+    .modalsteps#modalsteps2 .blockm,
+    .modalsteps .blockm {
+        width: 100%;
+        margin-top: 10px;
+    } 
+
+    .modalsteps h2,
+    #modalvisitor h2 {
+        font-size: 25px;
+    }    
+    .modalsteps .actions h3 {
+        font-size: 20px;
+    }    
+    .modalsteps .actions a,
+    #modalvisitor .actions a {
+        padding: 12px 30px;
+        font-size: 15px;
+    }      
+    .modalsteps .bottom,
+    #modalvisitor .bottom {
+        padding: 0px 20px 0px 20px;        
+    }    
+    .modalsteps .blocksm {
+        padding: 10px 0px 5px 0px;
+    }    
+    .modalsteps a.close-modal,
+    #modalvisitor a.close-modal {
+        display: none;
+        visibility: hidden;
+    }  
+    .modalsteps .actions {
+        padding: 35px 0px 10px 0px;
+    }    
+    .modalsteps .top,
+    #modalvisitor .top {
+        padding: 15px 0px;
+    }    
+    .modalsteps .blockm p {
+        max-width: none;
+    }  
+
+    #modalmodal .dog {
+        display: none;
+        visibility: hidden;
+    }
+    #modalmodal .blockmodal {
+        width: 100%;
+    }
+    #modalmodal .blockmodal h3 {
+        font-size: 16px;
+    }
+    #modalmodal .blockmodal h4 {
+        font-size: 15px;
+        line-height: 20px;
+    }
+    #modalmodal .blockmodal h2 {
+        font-size: 24px;
+        line-height: 28px;
+    }    
+    #modalmodal .blockmodal .hashtags {
+        font-size: 14px;
+    } 
+    #modalmodal .blockmodal .hashtags ul li {
+        line-height: 21px;
+        font-size: 18px;
+    }   
+    #modalmodal .bottom p {
+        font-size: 17px;
+    }    
+    #modalmodal.adoptm .hashtags ul {
+        width: 100%;
+        margin: 0px auto;
+    }    
+    #modalmodal.adoptm .blockmodal {
+        padding-top: 40px;
+    }   
+    #modalmodal .hashtags {
+        font-size: 20px;
+    }
+    #modalmodal .hashtags ul li {
+        line-height: 19px;
+        font-size: 17px;
+    }    
+    #modalmodal.adoptm .blockmodal h3 {
+        line-height: 24px;
+    }    
+    #modalmodal.adoptm .bottom {
+        padding: 20px 40px;
+        box-sizing: border-box;
+    }
+    #modalmodal .hashtag {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }    
+    #modalcont,
+    #modalsuccessvisitor {
+        width: auto;
+        padding: 30px 40px;
+        box-sizing: border-box;
+    }
+    #modalcont i {
+        background-image: url('../../img/sprited57f.png?v17');
+    }
+}

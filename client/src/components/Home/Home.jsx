@@ -1,394 +1,65 @@
 import React, { Component, Suspense } from 'react';
-import { Bar, Line } from 'react-chartjs-2';
-import {
-  ButtonDropdown,
-  ButtonGroup,
-  Card,
-  CardBody,
-  Col,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Row,
-} from 'reactstrap'
+import { Row } from 'reactstrap'
 import { AppHeader } from '@coreui/react';
-import { AUTHENTICATION_LOGOUT} from '../../config/httpService'
-import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
-import { getStyle } from '@coreui/coreui/dist/js/coreui-utilities'
-// import { handleCountLostPet } from '../Pets/services/pets.services'
+import { AUTHENTICATION_LOGOUT } from '../../config/httpService'
+import { handleCountLostPet } from '../Pets/services/petservice'
+import { HandleAuthenticationById } from '../../components/Login/services/authHelper.services'
+import { COLOR_PRIMARY } from '../../config/config'
+import CardView from '../../common/CardView'
+import Span from '../../common/Span'
+import CardViewPostEsqueleton from '../../common/CardViewPostEsqueleton'
+import CardViewPost from '../../common/CardViewPost'
+import AuthService from '../../config/token';
+import Box from '@material-ui/core/Box';
+import ImagePetAdoption from '../../common/ImagePetAdoption'
+import SpeedDialTooltipOpen from '../../common/SpeedDialTooltipOpen'
+import TitlebarGridList from '../../common/TitlebarGridList'
+import { HandlePetGetAll } from '../../components/Pets/services/petservice'
+import ResponsiveDialog from '../../common/ResponsiveDialog';
+import { geolocated, geoPropTypes } from '../../config/userPosition'
+import { HandleAccidentCreate } from './services/accidents.services'
+import Imagenes from '../../common/Imagenes'
 
 //Constantes
 const DefaultHeader = React.lazy(() => import('../../containers/DefaultLayout/DefaultHeader'));
-// const Widget03 = React.lazy(() => import('../../common/Widget03'));
-const brandPrimary = getStyle('--primary')
-// const brandSuccess = getStyle('--success')
-const brandInfo = getStyle('--info')
-// const brandWarning = getStyle('--warning')
-// const brandDanger = getStyle('--danger')
 
-// Card Chart 1
-const cardChartData1 = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: brandPrimary,
-      borderColor: 'rgba(255,255,255,.55)',
-      data: [65, 59, 84, 84, 51, 55, 40],
-    },
-  ],
-};
+const getDirection = (degrees, isLongitude) =>
+  degrees > 0 ? (isLongitude ? "E" : "N") : isLongitude ? "W" : "S";
 
-const cardChartOpts1 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent',
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        },
+// Formato para los grados
+const formatDegrees = (degrees, isLongitude) =>
+  `${0 | degrees}° ${0 | (((degrees < 0 ? (degrees = -degrees) : degrees) % 1) * 60)}' ${0 |
+    (((degrees * 60) % 1) * 60)}" ${getDirection(degrees, isLongitude)}`
 
-      }],
-    yAxes: [
-      {
-        display: false,
-        ticks: {
-          display: false,
-          min: Math.min.apply(Math, cardChartData1.datasets[0].data) - 5,
-          max: Math.max.apply(Math, cardChartData1.datasets[0].data) + 5,
-        },
-      }],
-  },
-  elements: {
-    line: {
-      borderWidth: 1,
-    },
-    point: {
-      radius: 4,
-      hitRadius: 10,
-      hoverRadius: 4,
-    },
+/* Mensaje de saludo */
+const Greeting = (props) => {
+  let date = new Date()
+  let greeting, quote, img
+  let hours = date.getHours()
+  if(hours < 12) {
+      greeting = 'Buenos días'
+      quote = 'Cada nuevo día es una oportunidad para cambiar tu vida.'
+      img = '../../assets/img/greeting/park.png'
+  } else if(hours >= 12 && hours <=18) {
+      greeting = 'Buenas tardes'
+      quote = 'Que esta tarde sea luz, bendita, iluminada, productiva y feliz.'
+      img = '../../assets/img/greeting/desert.png'
+  } else if(hours >=18 && hours <=24) {
+      greeting = 'Buenas noches'
+      quote = 'Las noches son la forma en que la vida dice que estás más cerca de tus sueños.'
+      img = '../../assets/img/greeting/sea.png'
   }
+  return(
+    <div className="alert alert-dismissible greetalert" role="alert">
+      <div>
+        <div className="small-texts">{greeting}, {props.name}
+          <img src={img} alt='Imagen'/>
+        </div>
+        <p>{quote}</p>
+      </div>
+    </div>
+  )
 }
-
-// Card Chart 3
-const cardChartData3 = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: 'rgba(255,255,255,.2)',
-      borderColor: 'rgba(255,255,255,.55)',
-      data: [78, 81, 80, 45, 34, 12, 40],
-    },
-  ],
-};
-
-const cardChartOpts3 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        display: false,
-      }],
-    yAxes: [
-      {
-        display: false,
-      }],
-  },
-  elements: {
-    line: {
-      borderWidth: 2,
-    },
-    point: {
-      radius: 0,
-      hitRadius: 10,
-      hoverRadius: 4,
-    },
-  },
-};
-
-// Card Chart 4
-const cardChartData4 = {
-  labels: ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''],
-  datasets: [
-    {
-      label: 'My First dataset',
-      backgroundColor: 'rgba(255,255,255,.3)',
-      borderColor: 'transparent',
-      data: [78, 81, 80, 45, 34, 12, 40, 75, 34, 89, 32, 68, 54, 72, 18, 98],
-    },
-  ],
-};
-
-const cardChartOpts4 = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  legend: {
-    display: false,
-  },
-  scales: {
-    xAxes: [
-      {
-        display: false,
-        barPercentage: 0.6,
-      }],
-    yAxes: [
-      {
-        display: false,
-      }],
-  },
-};
-
-// Social Box Chart
-// const socialBoxData = [
-//   { data: [65, 59, 84, 84, 51, 55, 40], label: 'facebook' },
-//   { data: [1, 13, 9, 17, 34, 41, 38], label: 'twitter' },
-//   { data: [78, 81, 80, 45, 34, 12, 40], label: 'linkedin' },
-//   { data: [35, 23, 56, 22, 97, 23, 64], label: 'google' },
-// ];
-
-// const makeSocialBoxData = (dataSetNo) => {
-//   const dataset = socialBoxData[dataSetNo];
-//   const data = {
-//     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-//     datasets: [
-//       {
-//         backgroundColor: 'rgba(255,255,255,.1)',
-//         borderColor: 'rgba(255,255,255,.55)',
-//         pointHoverBackgroundColor: '#fff',
-//         borderWidth: 2,
-//         data: dataset.data,
-//         label: dataset.label,
-//       },
-//     ],
-//   };
-//   return () => data;
-// };
-
-// const socialChartOpts = {
-//   tooltips: {
-//     enabled: false,
-//     custom: CustomTooltips
-//   },
-//   responsive: true,
-//   maintainAspectRatio: false,
-//   legend: {
-//     display: false,
-//   },
-//   scales: {
-//     xAxes: [
-//       {
-//         display: false,
-//       }],
-//     yAxes: [
-//       {
-//         display: false,
-//       }],
-//   },
-//   elements: {
-//     point: {
-//       radius: 0,
-//       hitRadius: 10,
-//       hoverRadius: 4,
-//       hoverBorderWidth: 3,
-//     },
-//   },
-// };
-
-// sparkline charts
-// const sparkLineChartData = [
-//   {
-//     data: [35, 23, 56, 22, 97, 23, 64],
-//     label: 'New Clients',
-//   },
-//   {
-//     data: [65, 59, 84, 84, 51, 55, 40],
-//     label: 'Recurring Clients',
-//   },
-//   {
-//     data: [35, 23, 56, 22, 97, 23, 64],
-//     label: 'Pageviews',
-//   },
-//   {
-//     data: [65, 59, 84, 84, 51, 55, 40],
-//     label: 'Organic',
-//   },
-//   {
-//     data: [78, 81, 80, 45, 34, 12, 40],
-//     label: 'CTR',
-//   },
-//   {
-//     data: [1, 13, 9, 17, 34, 41, 38],
-//     label: 'Bounce Rate',
-//   },
-// ];
-
-// const makeSparkLineData = (dataSetNo, variant) => {
-//   const dataset = sparkLineChartData[dataSetNo];
-//   const data = {
-//     labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-//     datasets: [
-//       {
-//         backgroundColor: 'transparent',
-//         borderColor: variant ? variant : '#c2cfd6',
-//         data: dataset.data,
-//         label: dataset.label,
-//       },
-//     ],
-//   };
-//   return () => data;
-// };
-
-// const sparklineChartOpts = {
-//   tooltips: {
-//     enabled: false,
-//     custom: CustomTooltips
-//   },
-//   responsive: true,
-//   maintainAspectRatio: true,
-//   scales: {
-//     xAxes: [
-//       {
-//         display: false,
-//       }],
-//     yAxes: [
-//       {
-//         display: false,
-//       }],
-//   },
-//   elements: {
-//     line: {
-//       borderWidth: 2,
-//     },
-//     point: {
-//       radius: 0,
-//       hitRadius: 10,
-//       hoverRadius: 4,
-//       hoverBorderWidth: 3,
-//     },
-//   },
-//   legend: {
-//     display: false,
-//   },
-// };
-
-// Main Chart
-
-//Random Numbers
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-var elements = 27;
-var data1 = [];
-var data2 = [];
-var data3 = [];
-
-for (var i = 0; i <= elements; i++) {
-  data1.push(random(50, 200));
-  data2.push(random(80, 100));
-  data3.push(65);
-}
-
-// const mainChart = {
-//   labels: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-//   datasets: [
-//     {
-//       label: 'My First dataset',
-//       backgroundColor: hexToRgba(brandInfo, 10),
-//       borderColor: brandInfo,
-//       pointHoverBackgroundColor: '#fff',
-//       borderWidth: 2,
-//       data: data1,
-//     },
-//     {
-//       label: 'My Second dataset',
-//       backgroundColor: 'transparent',
-//       borderColor: brandSuccess,
-//       pointHoverBackgroundColor: '#fff',
-//       borderWidth: 2,
-//       data: data2,
-//     },
-//     {
-//       label: 'My Third dataset',
-//       backgroundColor: 'transparent',
-//       borderColor: brandDanger,
-//       pointHoverBackgroundColor: '#fff',
-//       borderWidth: 1,
-//       borderDash: [8, 5],
-//       data: data3,
-//     },
-//   ],
-// };
-
-// const mainChartOpts = {
-//   tooltips: {
-//     enabled: false,
-//     custom: CustomTooltips,
-//     intersect: true,
-//     mode: 'index',
-//     position: 'nearest',
-//     callbacks: {
-//       labelColor: function(tooltipItem, chart) {
-//         return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor }
-//       }
-//     }
-//   },
-//   maintainAspectRatio: false,
-//   legend: {
-//     display: false,
-//   },
-//   scales: {
-//     xAxes: [
-//       {
-//         gridLines: {
-//           drawOnChartArea: false,
-//         },
-//       }],
-//     yAxes: [
-//       {
-//         ticks: {
-//           beginAtZero: true,
-//           maxTicksLimit: 5,
-//           stepSize: Math.ceil(250 / 5),
-//           max: 250,
-//         },
-//       }],
-//   },
-//   elements: {
-//     point: {
-//       radius: 0,
-//       hitRadius: 10,
-//       hoverRadius: 4,
-//       hoverBorderWidth: 3,
-//     },
-//   },
-// };
-
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -397,7 +68,41 @@ class Home extends Component {
     this.state = {
       dropdownOpen: false,
       radioSelected: 2,
+      countLostPet:'',
+      person: Object,
+      id: 0,
+      greeting: '',
+      quote: '',
+      post: [],
+      petsData:[],
+      titlePost: '',
+      descriptionPost: '',
+      latitude:'',
+      longitude:'',
+      formatLatitude: '',
+      formatLongitude: ''
     };
+    this.Auth = new AuthService();
+    this.handleOnChangeTitulo = this.handleOnChangeTitulo.bind(this)
+    this.handleOnChangeDescription = this.handleOnChangeDescription.bind(this)
+  }
+  async componentDidMount() {
+    const responseCountLostPet = await handleCountLostPet()
+    this.setState({ countLostPet: responseCountLostPet.data.count, isFetch: false})
+    if(!this.Auth.loggedIn())
+      this.props.history.replace('/login');
+    const profile = this.Auth.getProfile() // obtenemos el id de la sesión
+    const user = await HandleAuthenticationById(profile.id)
+    const petsData = await HandlePetGetAll() // cambiar con la lista de mascotas perdidas
+    const list = ['1','2'] // cambiar con la lista de posts
+    this.setState({
+      id: profile.id,
+      person: user,
+      post: list,
+      petsData: petsData,
+    })
+    console.log(formatDegrees(this.props.coords.longitude, false))    
+    this.handlePosition()
   }
   toggle() {
     this.setState({
@@ -409,7 +114,7 @@ class Home extends Component {
       radioSelected: radioSelected,
     });
   }
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+  loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
   async signOut(e) {
     e.preventDefault()
     await AUTHENTICATION_LOGOUT()
@@ -419,175 +124,131 @@ class Home extends Component {
     e.preventDefault()
     this.props.history.push('/dashboard')
   }
-  componentDidMount() {
-    /* */
+  functionRedirect(nameRedirect) {
+    this.props.history.push(nameRedirect)
+  }
+  onHandleDetail(e) {
+    e.preventDefault()
+    let id = this.state.id 
+    this.functionRedirect('/perfil/'+id)
+  }
+  handleOnChangeTitulo(e) {
+    e.preventDefault()
+    this.setState({
+      titlePost: e.target.value
+    })
+  }
+  handleOnChangeDescription(e) {
+    e.preventDefault()
+    this.setState({
+      descriptionPost: e.target.value
+    }) 
+  }
+  handlePosition() {
+    const longitude = this.props.coords.longitude
+    const latitude = this.props.coords.latitude
+    this.setState({
+      longitude: longitude,
+      latitude: latitude
+    })
+  }
+  async handleNewAccidentPost(e) {
+    e.preventDefault()
+    let iduser = this.state.id
+    let title =  this.state.titlePost
+    let description = this.state.descriptionPost
+    let longitude = this.state.longitude
+    let latitude = this.state.latitude
+    const newAccident = { description, longitude, latitude, iduser }
+    console.log(newAccident)
+    await HandleAccidentCreate(newAccident)
   }
   render() {
-    const cardChartData2 = {
-      labels: ['Octubre', 'Noviembre'],
-      datasets: [
-        {
-          label: 'Mascotas sin hogar',
-          backgroundColor: brandInfo,
-          borderColor: 'rgba(255,255,255,.55)',
-          data: ['1','2']
-        },
-      ],
-    };
-    
-    const cardChartOpts2 = {
-      tooltips: {
-        enabled: false,
-        custom: CustomTooltips
-      },
-      maintainAspectRatio: false,
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [
-          {
-            gridLines: {
-              color: 'transparent',
-              zeroLineColor: 'transparent',
-            },
-            ticks: {
-              fontSize: 2,
-              fontColor: 'transparent',
-            },
-    
-          }],
-        yAxes: [
-          {
-            display: false,
-            ticks: {
-              display: false,
-              min: Math.min.apply(Math, cardChartData2.datasets[0].data) - 5,
-              max: Math.max.apply(Math, cardChartData2.datasets[0].data) + 5,
-            },
-          }],
-      },
-      elements: {
-        line: {
-          tension: 0.00001,
-          borderWidth: 1,
-        },
-        point: {
-          radius: 4,
-          hitRadius: 10,
-          hoverRadius: 4,
-        },
-      },
-    };
+    const {countLostPet, person, post, petsData} = this.state
     return (
       <div className="app">
         <AppHeader fixed>
-          <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)}/>
+          <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
           <Suspense  fallback={this.loading()}>
           </Suspense>
         </AppHeader>
         <div className="app-body">
-          <main className="main">
-            <div className="container">
-              <br/>
+          <main className="main container">
+            <br/>
+            <div className="animated fadeIn">
+              {/* Cardview - contadores */}
               <Row>
-                <Col xs="12" sm="6" lg="3">
-                  <Card className="text-white bg-info">
-                    <CardBody className="pb-0">
-                      <ButtonGroup className="float-right">
-                        <ButtonDropdown id='card1' isOpen={this.state.card1} toggle={() => { this.setState({ card1: !this.state.card1 }); }}>
-                          <DropdownToggle caret className="p-0" color="transparent">
-                            <i className="icon-settings"></i>
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem>Action</DropdownItem>
-                            <DropdownItem>Another action</DropdownItem>
-                            <DropdownItem disabled>Disabled action</DropdownItem>
-                            <DropdownItem>Something else here</DropdownItem>
-                          </DropdownMenu>
-                        </ButtonDropdown>
-                      </ButtonGroup>
-                      <div className="text-value">9.823</div>
-                      <div>Members online</div>
-                    </CardBody>
-                    <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                      <Line data={cardChartData2} options={cardChartOpts2} height={70} />
-                    </div>
-                  </Card>
-                </Col>
-
-                <Col xs="12" sm="6" lg="3">
-                  <Card className="text-white bg-primary">
-                    <CardBody className="pb-0">
-                      <ButtonGroup className="float-right">
-                        <Dropdown id='card2' isOpen={this.state.card2} toggle={() => { this.setState({ card2: !this.state.card2 }); }}>
-                          <DropdownToggle className="p-0" color="transparent">
-                            <i className="icon-location-pin"></i>
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem>Action</DropdownItem>
-                            <DropdownItem>Another action</DropdownItem>
-                            <DropdownItem>Something else here</DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </ButtonGroup>
-                      <div className="text-value">9.823</div>
-                      <div>Members online</div>
-                    </CardBody>
-                    <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                      <Line data={cardChartData1} options={cardChartOpts1} height={70} />
-                    </div>
-                  </Card>
-                </Col>
-
-                <Col xs="12" sm="6" lg="3">
-                  <Card className="text-white bg-warning">
-                    <CardBody className="pb-0">
-                      <ButtonGroup className="float-right">
-                        <Dropdown id='card3' isOpen={this.state.card3} toggle={() => { this.setState({ card3: !this.state.card3 }); }}>
-                          <DropdownToggle caret className="p-0" color="transparent">
-                            <i className="icon-settings"></i>
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem>Action</DropdownItem>
-                            <DropdownItem>Another action</DropdownItem>
-                            <DropdownItem>Something else here</DropdownItem>
-                          </DropdownMenu>
-                        </Dropdown>
-                      </ButtonGroup>
-                      <div className="text-value">9.823</div>
-                      <div>Members online</div>
-                    </CardBody>
-                    <div className="chart-wrapper" style={{ height: '70px' }}>
-                      <Line data={cardChartData3} options={cardChartOpts3} height={70} />
-                    </div>
-                  </Card>
-                </Col>
-
-                <Col xs="12" sm="6" lg="3">
-                  <Card className="text-white bg-danger">
-                    <CardBody className="pb-0">
-                      <ButtonGroup className="float-right">
-                        <ButtonDropdown id='card4' isOpen={this.state.card4} toggle={() => { this.setState({ card4: !this.state.card4 }); }}>
-                          <DropdownToggle caret className="p-0" color="transparent">
-                            <i className="icon-settings"></i>
-                          </DropdownToggle>
-                          <DropdownMenu right>
-                            <DropdownItem>Action</DropdownItem>
-                            <DropdownItem>Another action</DropdownItem>
-                            <DropdownItem>Something else here</DropdownItem>
-                          </DropdownMenu>
-                        </ButtonDropdown>
-                      </ButtonGroup>
-                      <div className="text-value">9.823</div>
-                      <div>Members online</div>
-                    </CardBody>
-                    <div className="chart-wrapper mx-3" style={{ height: '70px' }}>
-                      <Bar data={cardChartData4} options={cardChartOpts4} height={70} />
-                    </div>
-                  </Card>
-                </Col>
+                <CardView lg='3' className='text-white bg-warning' text='MASCOTAS PERDIDAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+                <CardView lg='3' className='text-white bg-pink'text='MASCOTAS MALTRATADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+                <CardView lg='3' className='text-white' style={{background: `${COLOR_PRIMARY}`}} text='MASCOTAS RAPTADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+                <CardView lg='3' className='text-white bg-success' text='MASCOTAS ADOPTADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
               </Row>
+              <hr/>
+              <Span className='mt-4' text='Ultimas mascotas adoptadas'/>
+              <Box display="flex">
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/9.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/11.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/12.jpg'} bodyImage={'../../assets/img/pets/frijolito.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/11.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/12.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/9.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
+              </Box>
+              <br/>
+              <div className="row mb-3">
+                <div className="col-12 col-sm-8 col-lg-8 themed-grid-col">
+                  {/* Left */}
+                  <form className="post publisher-box">
+                    <div className="panel panel-white post panel-shadow">
+                      <div className="wo_pub_txtara_combo">
+                        <img src={'../../assets/img/avatars/' + person.photo} className="post-avatar responsive" alt='Imagen'/>
+                        {/* <Imagenes src={'../../assets/img/avatars/' + person.photo} alt={person.lastName}/> */}
+                        <ResponsiveDialog placeholder={'¿Quieres publicar algo, ' + (((person.firstName == null) ? '': person.firstName) + ' ' + ((person.lastName == null) ? '': person.lastName)).toLowerCase() + '?'}
+                        UserDialog={(((person.firstName == null) ? '': person.firstName) + ' ' + ((person.lastName == null) ? '': person.lastName)).toLowerCase()}
+                        UserDialogImg={'../../assets/img/avatars/'  + person.photo} tituloPost={(person.firstName == null) ? 'Por favor, ingresa el titulo de la publicación': person.firstName + ', ingresa el titulo de la publicación'}
+                        handleOnChangeTitulo={this.handleOnChangeTitulo} handleOnChangeDescription={this.handleOnChangeDescription}
+                        handleNewPost={e=>this.handleNewAccidentPost(e)}/>
+                      </div>
+                    </div>
+                  </form>
+                  <br/>
+                  <Greeting name={person.firstName + ' ' + person.lastName}/> {/* Mensaje de saludo al usuario */}
+                  {/* Publicaciones */}
+                  <div>
+                    {
+                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
+                      : <CardViewPostEsqueleton/>
+                    }
+                  </div>
+                  <div>
+                    {
+                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
+                      : <CardViewPostEsqueleton/>
+                    }
+                  </div>
+                  <div>
+                    {
+                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
+                      : <CardViewPostEsqueleton/>
+                    }
+                  </div>
+                  <div>
+                    {
+                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
+                      : <CardViewPostEsqueleton/>
+                    }
+                  </div>
+                </div>
+                <div className="col-12 col-lg-4 themed-grid-col">
+                  {/* Right */}
+                  <TitlebarGridList headTitle={'Ultimas publicaciones de mascotas perdidas'} petsData={petsData}/>
+                </div>
+                <div className="">
+                  <SpeedDialTooltipOpen/>
+                </div>
+              </div>
             </div>
           </main>
         </div>
@@ -595,5 +256,11 @@ class Home extends Component {
     );
   }
 }
+Home.propTypes = { ...Home.propTypes, ...geoPropTypes };
 
-export default Home;
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: false,
+  },
+  userDecisionTimeout: 5000,
+})(Home);

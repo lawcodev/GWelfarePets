@@ -3,6 +3,8 @@ const AUTHENTICATION_PATH = '/api/authentication'
 const PETS_PATH = '/api/pets'
 const BREED_PATH = '/api/breeds'
 const QUESTIONS_PATH = '/api/questions'
+const USER_PATH = '/api/user'
+const ACCIDENT_PATH = '/api/accident'
 
 export default class ApiEndPoint {
   /* Authentication */
@@ -49,7 +51,18 @@ export default class ApiEndPoint {
     return `${BASE_URL_SERVER}${QUESTIONS_PATH}`
   }
   /* Api de authenticación */ 
-  apiDetailAuthenticationPath = (id) => {
+  apiProfileDetailAuthenticationPath = (id) => {
     return `${BASE_URL_SERVER}${AUTHENTICATION_PATH}/detail/${id}`
+  }
+  /* Api de usuarios */
+  apiAddNewUserPath = () => {
+    return `${BASE_URL_SERVER}${USER_PATH}/add`
+  }
+  apiDisabledPath = (id) => {
+    return `${BASE_URL_SERVER}${AUTHENTICATION_PATH}/disabled/${id}`
+  }
+  /* Api de accidentes, nuevo, editar, etc */
+  apiAddNewAccidentPath = () => {
+    return `${BASE_URL_SERVER}${ACCIDENT_PATH}/add`
   }
 }

@@ -16,6 +16,8 @@ const Home = React.lazy(() => import('./components/Home/Home'))
 const Extranet = React.lazy(() => import('./components/Extranet/Extranet'))
 const Adopta = React.lazy(()=> import('./components/Espouse/Espouse'))
 const Questions = React.lazy(() => import('./components/Questions/Questions'))
+const DetailAdoption = React.lazy(() => import('./components/DetailAdoption/DetailAdoption'))
+const DetailUser = React.lazy(() => import('./components/DetailUser/DetailUser'))
 
 class App extends Component {
   render() {
@@ -26,11 +28,13 @@ class App extends Component {
               <Route path="/login" name="Login Page" render={props => <Login {...props}/>} />
               <Route exact path="/register" name="Register Page" render={props => <Register {...props}/>} />
               <Route exact path="/404" name="Page 404" render={props => <Page404 {...props}/>} />
-              <Route exact path="/500" name="Page 500" render={props => <Page500 {...props}/>} />
+              <Route exact path="/401" name="Page 500" render={props => <Page500 {...props}/>} />
               <Route exact path="/Home" name="Home" render={props => <Home {...props}/>} />
               <Route exact path="/" name="Extranet" render={props => <Extranet {...props}/>} />
               {/* Rutas del home */}
-              <Route exact path="/Adopta" name="Adopta" render={props => <Adopta {...props}/>}/>
+              <Route exact path="/adopta" name="Adopta" render={props => <Adopta {...props}/>}/>
+              <Route exact path="/adopta/:id" name="Adopta" render={props => <DetailAdoption {...props}/>}/>
+              <Route exact path="/perfil/:id" name="User" render={props => <DetailUser {...props}/>}/>
               <Route exact path="/Faq" name="Preguntas frecuentes" render={props => <Questions {...props}/>}/>
               <Route path="/" name="Dashboard" render={props => <DefaultLayout {...props}/>} />
             </Switch>

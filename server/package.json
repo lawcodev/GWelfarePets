@@ -25,7 +25,7 @@
     "webpack": "^4.39.3"
   },
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "nepe": "nodemon src/index.js",
     "webpack": "webpack --mode development"
   },
   "keywords": [],

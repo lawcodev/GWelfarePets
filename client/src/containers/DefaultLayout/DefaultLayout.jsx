@@ -3,7 +3,6 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
 import { AUTHENTICATION_LOGOUT} from '../../config/httpService'
-
 import {
   AppFooter,
   AppHeader,
@@ -15,33 +14,42 @@ import {
   AppBreadcrumb2 as AppBreadcrumb,
   AppSidebarNav2 as AppSidebarNav,
 } from '@coreui/react';
-// sidebar nav config
 import navigation from '../../components/Sidebar';
-// routes config
 import routes from '../../components/Routes';
+import AuthService from '../../config/token';
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
 
 class DefaultLayout extends Component {
-
-  loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
-
+  constructor(props) {
+    super(props)
+    this.Auth = new AuthService();
+  }
+  loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
+  componentDidMount() {
+  }
   async signOut(e) {
     e.preventDefault()
     await AUTHENTICATION_LOGOUT()
     this.props.history.push('/')
   }
+  functionRedirect(nameRedirect) {
+    this.props.history.push(nameRedirect)
+  }
   onSignAdmi(e) {
     e.preventDefault()
-    this.props.history.push('/dashboard')
+    this.functionRedirect('/dashboard')
+  }
+  onHandleDetail(e) {
+    e.preventDefault()
   }
   render() {
     return (
       <div className="app">
         <AppHeader fixed>
           <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)}/>
+            <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
