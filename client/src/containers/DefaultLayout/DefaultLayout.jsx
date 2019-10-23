@@ -2,40 +2,28 @@ import React, { Component, Suspense } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import * as router from 'react-router-dom';
 import { Container } from 'reactstrap';
-import { AUTHENTICATION_LOGOUT} from '../../config/httpService'
-import {
-  AppFooter,
-  AppHeader,
-  AppSidebar,
-  AppSidebarFooter,
-  AppSidebarForm,
-  AppSidebarHeader,
-  AppSidebarMinimizer,
-  AppBreadcrumb2 as AppBreadcrumb,
-  AppSidebarNav2 as AppSidebarNav,
-} from '@coreui/react';
-import navigation from '../../components/Sidebar';
+import { AppFooter, AppHeader, AppSidebar, AppSidebarFooter, AppSidebarForm, AppSidebarHeader, AppSidebarMinimizer, AppBreadcrumb2 as AppBreadcrumb, AppSidebarNav2 as AppSidebarNav } from '@coreui/react';
+import Sidebar from '../../components/Sidebar';
 import routes from '../../components/Routes';
 import AuthService from '../../config/token';
+import Progress from '../../common/Progress'
 
 const DefaultFooter = React.lazy(() => import('./DefaultFooter'));
 const DefaultHeader = React.lazy(() => import('./DefaultHeader'));
+const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div> // Lo que hace esto es mostrar la barra de progreso en la parte superior de la aplicación
 
 class DefaultLayout extends Component {
   constructor(props) {
     super(props)
     this.Auth = new AuthService();
   }
-  loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
-  componentDidMount() {
+  functionRedirect(nameRedirect) {
+    this.props.history.push(nameRedirect)
   }
   async signOut(e) {
     e.preventDefault()
-    await AUTHENTICATION_LOGOUT()
-    this.props.history.push('/')
-  }
-  functionRedirect(nameRedirect) {
-    this.props.history.push(nameRedirect)
+    this.Auth.removeAuthorization()
+    this.functionRedirect('/')
   }
   onSignAdmi(e) {
     e.preventDefault()
@@ -44,12 +32,16 @@ class DefaultLayout extends Component {
   onHandleDetail(e) {
     e.preventDefault()
   }
+  onHome(e) {
+    e.preventDefault()
+    this.functionRedirect('/home')
+  }
   render() {
     return (
       <div className="app">
         <AppHeader fixed>
-          <Suspense  fallback={this.loading()}>
-            <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
+          <Suspense  fallback={loading()}>
+            <DefaultHeader onHome={e=>this.onHome(e)} onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
           </Suspense>
         </AppHeader>
         <div className="app-body">
@@ -57,7 +49,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-            <AppSidebarNav navConfig={navigation} {...this.props} router={router}/>
+            <AppSidebarNav navConfig={Sidebar} {...this.props} router={router}/> {/* Aquí imprimes la lista (sidebar) y le pasas los props dependiendo del router */}
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
@@ -65,8 +57,8 @@ class DefaultLayout extends Component {
           <main className="main">
             <AppBreadcrumb appRoutes={routes} router={router}/>
             <Container fluid>
-              <Suspense fallback={this.loading()}>
-                <Switch>
+              <Suspense fallback={loading()}>
+                <Switch> {/* Aquí imprimimos todos los componentes establecidos en el router  */}
                   {routes.map((route, idx) => {
                     return route.component ? (
                       <Route
@@ -86,7 +78,7 @@ class DefaultLayout extends Component {
           </main>
         </div>
         <AppFooter>
-          <Suspense fallback={this.loading()}>
+          <Suspense fallback={loading()}>
             <DefaultFooter />
           </Suspense>
         </AppFooter>

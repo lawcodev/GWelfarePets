@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Header from '../Header/Header'
-import { HandleQuestionGetAll } from './services/questions.services'
+import { QuestionsGetAll } from './action/questionAction'
 import H1 from '../../common/H1'
 import H2 from '../../common/H2'
 import Span from '../../common/Span'
+import { connect } from 'react-redux';
 
 class Questions extends Component {
   constructor(props){
@@ -15,10 +16,7 @@ class Questions extends Component {
     }    
   }
   async componentDidMount () {
-    const responseJson = await HandleQuestionGetAll()
-    this.setState({
-      questions: responseJson
-    })
+    await this.props.QuestionsGetAll()
   }
   toggle() {
     this.setState(state => ({ collapse: !state.collapse }));
@@ -40,7 +38,7 @@ class Questions extends Component {
     this.props.history.push('/faq')
   }
   render() {
-    const { questions } = this.state
+    const { questions } = this.props
     return(
       <React.Fragment>
         <Header onHome={e=>this.onHome(e)} onSignIn={e=>this.onSignIn(e)} onRedirectEspouse={e=>this.onRedirectEspouse(e)} onRedirectQuestion={e=>this.onRedirectQuestion(e)}/>
@@ -65,4 +63,7 @@ class Questions extends Component {
     )
   }
 }
-export default Questions
+const mapStateToProps = state => ({
+  questions: state.questions.questions
+})
+export default connect(mapStateToProps, { QuestionsGetAll })(Questions);

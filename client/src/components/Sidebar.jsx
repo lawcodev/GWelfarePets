@@ -1,3 +1,4 @@
+// Aquí se define una lista de todos los módulos de la aplicación | esto esta pensado sólo para la parte de administración.
 export default {
   items: [
     {
@@ -35,11 +36,15 @@ export default {
     },
     {
       name: 'Accidentes ',
-      url: '/Lista',
       icon: 'fa fa-free-code-camp',
       children: [
         {
-          name: 'Gestionar adopción',
+          name: 'Gestionar aprobación',
+          url: '/accidentes'
+        },
+        {
+          name: 'Mapeo gráfico de accidentes',
+          url: '/mapeo/mascotas',
         },
       ],
     },
@@ -50,7 +55,6 @@ export default {
       children: [
         {
           name: 'Gestionar adopción',
-          // url: '/Users/list',
         },
       ],
     },
@@ -61,18 +65,6 @@ export default {
       children: [
         {
           name: 'Gestionar apadrinamiento',
-          // url: '/Users/list',
-        },
-      ],
-    },
-    {
-      name: 'Mascotas perdidas ',
-      url: '/Lista',
-      icon: 'fa fa-map-marker',
-      children: [
-        {
-          name: 'Gestión de mascotas perdidas',
-          url: '/ubicacion/mascotas',
         },
       ],
     },

@@ -1,21 +1,8 @@
-const express = require('express');
+import express from 'express'
+import { getAllQuestions } from '../controllers/questionController'
 const router = express.Router();
-const connection = require('../data/connection');
 
-router.get('/questions', async (req, res, next) => {
-  try {
-    const storeProcedure = `call spGetAllQuestions()`
-    connection.query(storeProcedure, (error, results) => {
-      if (error)
-        return console.error(error.message);
-      res.json({
-        status: res.statusCode,
-        data: results[0],
-      });
-    });
-  } catch(e) {
-    console.error(e);    
-  }
-});
+router.route('/questions')
+  .get(getAllQuestions)
 
 module.exports = router

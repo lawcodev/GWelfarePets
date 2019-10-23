@@ -282,8 +282,8 @@ textarea.postText{border:none;padding-top:12px;padding-left:50px;height:45px;box
 .activities-wrapper *{font-size:12px}
 .activities-wrapper h2 .text-center{font-size:13px;color:#777}
 .header-loading-sppiner{font-size:30px;text-align:center;margin-left:auto;margin-right:auto;display:block;color:#777}
-.wowonder-well{background-color:#fff;border-radius:3px;padding:15px 15px 1px;border:1px solid #ededed}
-.wowonder-well.one-well{padding-top:0}
+.lawcodev-well{background-color:#fff;border-radius:3px;padding:15px 15px 1px;border:1px solid #ededed}
+.lawcodev-well.one-well{padding-top:0}
 .profile-style .avatar img{width:74px;border-radius:50%;margin-right:10px;border:1px solid #ededed}
 .profile-style:not(.promoted-style){width:48%;margin-right:6px;display:inline-table;margin-bottom:20px}
 .profile-style .user-like-button button{font-size:12px;border:1px solid #ededed;margin:3px}
@@ -3333,7 +3333,7 @@ svg {vertical-align: middle;}
 }
 
 @media (max-width:990px) {
-.tab-container,.wowonder-well{margin-bottom:20px}
+.tab-container,.lawcodev-well{margin-bottom:20px}
 .hidden-mobile-image,.second-footer{display:none}
 .middlecol{width:100%}
 .continue-button{margin-top:20px}
@@ -3522,7 +3522,7 @@ to{opacity:1;margin-top:0}
 #remote-media video:nth-child(2){width:95px}
 .center-container *:not(i) {font-size:18px;max-width:100%; min-width: 80%}
 .dropdown-menu>li{display:block}
-.wowonder-well .profile-style{width:100%}
+.lawcodev-well .profile-style{width:100%}
 .admin-panel-well .admin-static{width:100%!important}
 .wo_setting_sidebar{top:0;right:auto;left:0;width:100%;text-align:inherit}
 .wo_setting_sidebar ul{white-space:nowrap;overflow:hidden;overflow-x:auto}

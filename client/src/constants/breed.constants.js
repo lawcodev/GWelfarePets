@@ -1,0 +1,5 @@
+export const breedConstants = {
+  /* Success */
+  GETALL_BREED_SUCCESS: 'GETALL_BREEDS_SUCCESS',
+  ADDALL_BREED_SUCCESS: 'ADDALL_BREED_SUCCESS',
+}

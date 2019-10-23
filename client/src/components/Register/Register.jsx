@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header'
 import { Button, Card, CardBody, CardFooter, FormGroup, FormFeedback, Label, Col, Container, Form, Input, Row } from 'reactstrap';
-import { HandleUserCreate } from './services/register.services'
 import { COLOR_PRIMARY } from '../../config/config'
+import { connect } from 'react-redux';
+import { AddNewUser } from './action/userAction'
+
 const REGEX_ONLY_LETTER = /^[a-zA-Z ]+$/
-const REGEX_EMAIL = /^[a-zA-Z0-9\._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$/
+const REGEX_EMAIL = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9-]{2,}[.][a-zA-Z]{2,4}$/
 const REGEX_CELLPHONE = /^[9][0-8]{7}$/
 const REGEX_DNI = /^\d{7}(?:[-\s]\d{4})?$/
 const REGEX_VALIDATE_PASSWORD_WEAK =  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=]).{6,10}$/
@@ -236,7 +238,7 @@ class Register extends Component {
     }
     if(!this.state.diferentOnlyLetterName && !this.state.diferentOnlyLetterLastName && !this.state.validOnlyNumberDni 
       && !this.state.validCellphone && !this.state.invalidEmail && !this.state.weak) {
-      await HandleUserCreate(newRegister)    
+      await this.props.AddNewUser(newRegister)    
       this.props.history.push('/login')
     } else {
       alert('Error al ingresar datos, verifique')
@@ -469,7 +471,7 @@ class Register extends Component {
                     </FormGroup>
                     <Col xs="12">
                       <div className="text-center">
-                        <label style={{marginTop: '20px'}}>¿Ya tienes cuenta? </label><a style={{color: `${COLOR_PRIMARY}`}} onClick={e=>this.onSignIn(e)} className="px-0"> Iniciar sesión</a>
+                        <label style={{marginTop: '20px'}}>¿Ya tienes cuenta? </label><button style={{color: `${COLOR_PRIMARY}`}} onClick={e=>this.onSignIn(e)} className="px-0"> Iniciar sesión</button>
                       </div>
                     </Col>
                   </Form>
@@ -484,5 +486,4 @@ class Register extends Component {
     );
   }
 }
-
-export default Register;
+export default connect(null, { AddNewUser })(Register);

@@ -3,7 +3,6 @@ import Header from '../Header/Header'
 import H1 from '../../common/H1'
 import Tabs from '../../common/Tabs'
 import Button from '../../common/Buttons'
-import { HandlePetGetById, HandlePetGetAll } from '../Pets/services/petservice'
 
 const loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
 
@@ -18,14 +17,14 @@ class DetailAdoption extends Component {
   }
   async componentDidMount() {
     const idpet = this.props.match.params.id
-    const pet = await HandlePetGetById(idpet)
-    const list = await HandlePetGetAll()
+    // const pet = await HandlePetGetById(idpet)
+    // const list = await HandlePetGetAll()
     this.setState({
       id: idpet,
-      pet: pet[0],
+      // pet: pet[0],
     })
     this.setState({
-      pets: list
+      // pets: list
     })
   }
   onHome(e) {
@@ -108,7 +107,7 @@ class DetailAdoption extends Component {
                 </div>
               </div>
               <div className="bigimcontent" style={{marginLeft:'-40px'}}>
-                <img className="big" src="../../uploads/images/wufs/0pwBgotfiNzSEsngyJxLgrKYaFrSYq7p.jpg" width="400px" height="380px" alt='imagen'/>
+                <img className="big" src={'../../assets/img/pets/' + pet.photo} width="400px" height="380px" alt='imagen'/>
               </div>
               <div className="text-left">
                 <br/><br/>

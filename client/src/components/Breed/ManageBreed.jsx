@@ -1,34 +1,29 @@
 import React, { Component } from 'react'
-import { Card, CardBody, CardHeader, Col, Row, FormGroup } from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, Row } from 'reactstrap';
+import { BreedsGetAll } from './action/breedAction' // acciones de cada componente
+import { connect } from 'react-redux';
 import Label from '../../common/Label'
 import Link from '../../common/Link'
 import Icon from '../../common/Icon'
-import TextFieldSearch from '../../common/TextFieldSearch'
-import { HandleBreedGetAll } from './services/breed.services'
 
-const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+const loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
 
 class ManageBreed extends Component {
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      breeds: [], breedsBackUp: [], ok: false, isFetch: false
-    }
+  state = {
+    breeds: []
   }
   async componentDidMount () {
-    const responseJson = await HandleBreedGetAll()
-    this.setState({ 
-      breeds: responseJson, breedsBackUp: responseJson.data, ok: responseJson.status, isFetch: false
-    })    
+    const breeds = await this.props.BreedsGetAll()
+    this.setState({
+      breeds: breeds.payload
+    })
   }
   //#region Funciones para redireccionar
   fuctionRedirect(nameRedirect) {
     this.props.history.push(nameRedirect)
   }
   render() {
-    const { breeds, isFetch, ok } = this.state
-    if(isFetch && ok === 200) return loading()
+    const { breeds } = this.state
     return (
       <Row>
         <Col>
@@ -38,16 +33,11 @@ class ManageBreed extends Component {
               <Label text='Gestión de razas'/>
             </CardHeader>
             <CardBody>
-              <FormGroup row>
-                <Col xs="4" md="8">
-                  <TextFieldSearch value={this.state.text} onChange={(text) => this.functionPetsFilter(text)}/>
-                </Col>
-              </FormGroup>
               <div className="table-responsive">
                 <table className="table table-striped">
                   <thead className="thead-light">
                     <tr>
-                      <th>ID</th>
+                      <th>N°</th>
                       <th>Nombre</th>
                       <th>Acción</th>
                     </tr>
@@ -61,17 +51,11 @@ class ManageBreed extends Component {
                             <td>{breed.name}</td>
                             <td>
                               <Link className='btn btn-success' icon='fa fa-search-plus' onClick={() =>this.functionClickOpen(breed.idbreed)}/>
-                              <Link className='btn btn-danger'  icon='fa fa-trash-o' onClick={() =>this.handleDeletePet(breed.idbreed)}/>
-                              {/* <Link className='btn btn-info' icon='fa fa-edit' onClick={() =>this.handleEditPet(breed.idbreed)}/> */}
+                              <Link className='btn btn-danger' icon='fa fa-trash-o' onClick={() =>this.handleDeletePet(breed.idbreed)}/>
                             </td> 
                           </tr>
                         )
-                      }):
-                      <tr>
-                        <td>
-                          <Label text='No hay datos para mostrar...'/>
-                        </td>
-                      </tr>
+                      }): loading()
                     }
                   </tbody>
                 </table>
@@ -84,4 +68,7 @@ class ManageBreed extends Component {
     )
   }
 }
-export default ManageBreed
+const mapStateToProps = state => ({
+  breeds: state.breeds.breeds
+})
+export default connect(mapStateToProps, { BreedsGetAll })(ManageBreed);

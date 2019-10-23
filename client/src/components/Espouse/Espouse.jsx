@@ -4,7 +4,6 @@ import Span from '../../common/Span'
 import H2 from '../../common/H2'
 import CardImage from '../../common/CardImage'
 import { Col, Row } from 'reactstrap';
-import { HandlePetGetAll } from '../../components/Pets/services/petservice'
 
 class Espouse extends Component {
   constructor(props) {
@@ -41,10 +40,11 @@ class Espouse extends Component {
     this.setState((prevState) => { return { fadeIn: !prevState }});
   }
   async componentDidMount () {
-    const responseJson = await HandlePetGetAll()
-    this.setState({
-      pets: responseJson
-    })
+    // const responseJson = await HandlePetGetAll()
+    // this.setState({
+    //   pets: responseJson
+    // })
+    //this.props.PetsGetAll()
   }
   functionRedirect(nameRedirect) {
     this.props.history.push(nameRedirect)
@@ -70,7 +70,7 @@ class Espouse extends Component {
                   <Col xs="12" sm="6" md="3" key={pet.idpet}>
                     <CardImage title={pet.petName.toUpperCase()} genre={pet.genre + ' | '} years={pet.years > 1 ? pet.years + ' año(s) y ': pet.years + ' año y'}
                     mounths={pet.mounths > 1 ? pet.mounths + ' mes(es)': pet.mounths + ' mes'}
-                    img='http://www.wuf.pe/uploads/images/wufs/PmMtx9drKUKqCLfgrlWB9SYiXH9nVean.jpg'
+                    img={'../../assets/img/pets/' + pet.photo}
                     textButton='Conóceme' color='primary' variant='contained' onClick={() => this.handleDetailPet(pet.petName, pet.idpet, '/adopta/')}/>
                   </Col>
                 )
