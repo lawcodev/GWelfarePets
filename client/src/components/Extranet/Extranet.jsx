@@ -33,19 +33,19 @@ class Extranet extends Component {
             <div className="options-home">
               <CarouselImage/>
               <div className="options-content">
-                <a href={null} onClick={e=>this.onRedirectEspouse(e)} className="options-box">
+                <a onClick={e=>this.onRedirectEspouse(e)} className="options-box">
                   <div className="options-text" style={{color: 'white'}}>
                     <Paragraph className='adopta' text='ADOPTA'/>
                     <Paragraph text='¡Buscas un perro? Elige un Geopetfare y cambia dos vidas!'/>
                   </div>
                 </a>
-                <a href={null} className="options-box">
+                <a className="options-box">
                   <div className="options-text" style={{color: 'white'}}>
                     <Paragraph className='ayuda' text='APADRINA'/>
                     <Paragraph text='¿Amas a los perros? Únete a la Manada Geopetfare y sé parte del más grande programa de voluntariado canino.'/>
                   </div>
                 </a>
-                <a href={null} className="options-box">
+                <a className="options-box">
                   <div className="options-text" style={{color: 'white'}}>
                       <Paragraph className='contribuye' text='REPORTA'/>
                       <Paragraph text='Reporta un caso de maltrato al animal'/>
@@ -117,7 +117,7 @@ class Extranet extends Component {
                     </li>   
                   </ul>
                 </div>
-                <a className="btnadopt" onClick={e=>this.onRedirectEspouse(e)}>¡Adopta un Geopetfare aquí!</a>
+                <button className="btnadopt" onClick={e=>this.onRedirectEspouse(e)}>¡Adopta un Geopetfare aquí!</button>
               </div>
             </div>
           </div>

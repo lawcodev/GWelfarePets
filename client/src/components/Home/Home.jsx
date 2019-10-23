@@ -1,128 +1,163 @@
 import React, { Component, Suspense } from 'react';
-import { Row } from 'reactstrap'
 import { AppHeader } from '@coreui/react';
-import { AUTHENTICATION_LOGOUT } from '../../config/httpService'
-import { handleCountLostPet } from '../Pets/services/petservice'
 import { HandleAuthenticationById } from '../../components/Login/services/authHelper.services'
-import { COLOR_PRIMARY } from '../../config/config'
+import { COLOR_SECONDARY, HOME } from '../../config/config'
+import { geolocated, geoPropTypes } from '../../config/userPosition'
+import { makeStyles } from '@material-ui/core/styles';
+import { amber, green } from '@material-ui/core/colors';
 import CardView from '../../common/CardView'
 import Span from '../../common/Span'
-import CardViewPostEsqueleton from '../../common/CardViewPostEsqueleton'
-import CardViewPost from '../../common/CardViewPost'
 import AuthService from '../../config/token';
 import Box from '@material-ui/core/Box';
 import ImagePetAdoption from '../../common/ImagePetAdoption'
 import SpeedDialTooltipOpen from '../../common/SpeedDialTooltipOpen'
-import TitlebarGridList from '../../common/TitlebarGridList'
-import { HandlePetGetAll } from '../../components/Pets/services/petservice'
-import ResponsiveDialog from '../../common/ResponsiveDialog';
-import { geolocated, geoPropTypes } from '../../config/userPosition'
+import { Input, Row } from 'reactstrap';
+import Snackbar from '@material-ui/core/Snackbar';
+import clsx from 'clsx';
+import CloseIcon from '@material-ui/icons/Close';
+import WarningIcon from '@material-ui/icons/Warning';
+import InfoIcon from '@material-ui/icons/Info';
+import ErrorIcon from '@material-ui/icons/Error';
+import IconButton from '@material-ui/core/IconButton';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import AccidentsPost from '../Accidents/AccidentsPost'
 import { HandleAccidentCreate } from './services/accidents.services'
-import Imagenes from '../../common/Imagenes'
+import Greeting from './Greeting'
+import { Dialog } from '@material-ui/core';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Selected from '../../common/Selected'
+import SelectDangerLevel from '../../common/SelectDangerLevel'
+import Progress from '../../common/Progress'
+import Button from '@material-ui/core/Button';
+import MultipleImageUpload from '../../common/MultipleImageUpload'
+import GetPetsLost from '../Pets/GetPetsLost';
 
-//Constantes
 const DefaultHeader = React.lazy(() => import('../../containers/DefaultLayout/DefaultHeader'));
+const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div>
 
-const getDirection = (degrees, isLongitude) =>
-  degrees > 0 ? (isLongitude ? "E" : "N") : isLongitude ? "W" : "S";
+const variantIcon = {
+  success: CheckCircleIcon,
+  warning: WarningIcon,
+  error: ErrorIcon,
+  info: InfoIcon,
+};
 
-// Formato para los grados
-const formatDegrees = (degrees, isLongitude) =>
-  `${0 | degrees}° ${0 | (((degrees < 0 ? (degrees = -degrees) : degrees) % 1) * 60)}' ${0 |
-    (((degrees * 60) % 1) * 60)}" ${getDirection(degrees, isLongitude)}`
+const useStyles1 = makeStyles(theme => ({
+  success: {
+    backgroundColor: green[600],
+  },
+  error: {
+    backgroundColor: theme.palette.error.dark,
+  },
+  info: {
+    backgroundColor: theme.palette.primary.main,
+  },
+  warning: {
+    backgroundColor: amber[700],
+  },
+  icon: {
+    fontSize: 20,
+  },
+  iconVariant: {
+    opacity: 0.9,
+    marginRight: theme.spacing(1),
+  },
+  message: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+}));
 
-/* Mensaje de saludo */
-const Greeting = (props) => {
-  let date = new Date()
-  let greeting, quote, img
-  let hours = date.getHours()
-  if(hours < 12) {
-      greeting = 'Buenos días'
-      quote = 'Cada nuevo día es una oportunidad para cambiar tu vida.'
-      img = '../../assets/img/greeting/park.png'
-  } else if(hours >= 12 && hours <=18) {
-      greeting = 'Buenas tardes'
-      quote = 'Que esta tarde sea luz, bendita, iluminada, productiva y feliz.'
-      img = '../../assets/img/greeting/desert.png'
-  } else if(hours >=18 && hours <=24) {
-      greeting = 'Buenas noches'
-      quote = 'Las noches son la forma en que la vida dice que estás más cerca de tus sueños.'
-      img = '../../assets/img/greeting/sea.png'
-  }
-  return(
-    <div className="alert alert-dismissible greetalert" role="alert">
-      <div>
-        <div className="small-texts">{greeting}, {props.name}
-          <img src={img} alt='Imagen'/>
-        </div>
-        <p>{quote}</p>
-      </div>
-    </div>
-  )
+
+function MySnackbarContentWrapper(props) {
+  const classes = useStyles1();
+  const { className, message, onClose, variant, ...other } = props;
+  const Icon = variantIcon[variant];
+
+  return (
+    <SnackbarContent
+      className={clsx(classes[variant], className)}
+      aria-describedby="client-snackbar"
+      message={
+        <span id="client-snackbar" className={classes.message}>
+          <Icon className={clsx(classes.icon, classes.iconVariant)} />
+          {message}
+        </span>
+      }
+      action={[
+        <IconButton key="close" aria-label="close" color="inherit" onClick={onClose}>
+          <CloseIcon className={classes.icon} />
+        </IconButton>,
+      ]}
+      {...other}
+    />
+  );
 }
+
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.toggle = this.toggle.bind(this);
-    this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
     this.state = {
-      dropdownOpen: false,
-      radioSelected: 2,
       countLostPet:'',
       person: Object,
       id: 0,
       greeting: '',
       quote: '',
-      post: [],
+      accidentsApproved: [],
       petsData:[],
       titlePost: '',
       descriptionPost: '',
+      lastSeen: '',
       latitude:'',
       longitude:'',
       formatLatitude: '',
-      formatLongitude: ''
+      formatLongitude: '',
+      open: false,
+      openNewPost: false,
+      iddangerlevel: 0,
+      idaccidenttype: 0,
+      openNewPublicationNotification: false,
+      // Reporte de abusos states
+      stateSelectTypeAccidentLostPet: false,
+      stateSelectTypeAccidentAbuse: false,
+      files: []
+
     };
     this.Auth = new AuthService();
     this.handleOnChangeTitulo = this.handleOnChangeTitulo.bind(this)
-    this.handleOnChangeDescription = this.handleOnChangeDescription.bind(this)
+    this.handleOnChangeLastSeen = this.handleOnChangeLastSeen.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.handleChangeDanger = this.handleChangeDanger.bind(this)
+    this.handleChangeImage = this.handleChangeImage.bind(this)
   }
   async componentDidMount() {
-    const responseCountLostPet = await handleCountLostPet()
-    this.setState({ countLostPet: responseCountLostPet.data.count, isFetch: false})
     if(!this.Auth.loggedIn())
       this.props.history.replace('/login');
-    const profile = this.Auth.getProfile() // obtenemos el id de la sesión
+    const profile = this.Auth.getProfile() // obtenemos la sesión
     const user = await HandleAuthenticationById(profile.id)
-    const petsData = await HandlePetGetAll() // cambiar con la lista de mascotas perdidas
-    const list = ['1','2'] // cambiar con la lista de posts
     this.setState({
       id: profile.id,
       person: user,
-      post: list,
-      petsData: petsData,
     })
-    console.log(formatDegrees(this.props.coords.longitude, false))    
+    this.replaceTitle()
     this.handlePosition()
   }
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-    });
-  }
-  onRadioBtnClick(radioSelected) {
-    this.setState({
-      radioSelected: radioSelected,
-    });
-  }
-  loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
+  replaceTitle() {
+    document.title = `${HOME}`
+  }  
   async signOut(e) {
     e.preventDefault()
-    await AUTHENTICATION_LOGOUT()
-    this.props.history.push('/')
+    this.Auth.removeAuthorization()
+    this.Auth.logout()
+    this.functionRedirect('/')
   }
   onSignAdmi(e) {
     e.preventDefault()
-    this.props.history.push('/dashboard')
+    this.functionRedirect('/dashboard')
   }
   functionRedirect(nameRedirect) {
     this.props.history.push(nameRedirect)
@@ -138,115 +173,238 @@ class Home extends Component {
       titlePost: e.target.value
     })
   }
-  handleOnChangeDescription(e) {
+  handleOnChangeLastSeen(e) {
     e.preventDefault()
     this.setState({
-      descriptionPost: e.target.value
+      lastSeen: e.target.value
     }) 
   }
-  handlePosition() {
-    const longitude = this.props.coords.longitude
-    const latitude = this.props.coords.latitude
+  handleChange(selectedValue) {
+    const idaccidenttype = selectedValue.value
+    if(idaccidenttype == 1) {
+      this.setState({
+        idaccidenttype: idaccidenttype,
+        stateSelectTypeAccidentLostPet: true
+      })
+    } else {
+      this.setState({
+        idaccidenttype: idaccidenttype,
+        stateSelectTypeAccidentLostPet: false
+      })
+    }
+    if(idaccidenttype == 2) {
+      this.setState({
+        idaccidenttype: idaccidenttype,
+        stateSelectTypeAccidentAbuse: true
+      })
+    } else {
+      this.setState({
+        idaccidenttype: idaccidenttype,
+        stateSelectTypeAccidentAbuse: false
+      })
+    }
     this.setState({
-      longitude: longitude,
-      latitude: latitude
+      idaccidenttype: idaccidenttype
     })
+  }
+  handleChangeDanger(selectedValue) {
+    const iddangerlevel = selectedValue.value
+    this.setState({
+      iddangerlevel: iddangerlevel
+    })
+  }
+  handlePosition() {
+    if(this.props.coords) {
+      this.setState({
+        longitude: this.props.coords.longitude,
+        latitude: this.props.coords.latitude
+      }) 
+    } else {
+      return
+    }
+  }
+  handleChangeImage(files){
+    this.setState({
+      files: files
+    });
   }
   async handleNewAccidentPost(e) {
     e.preventDefault()
+
     let iduser = this.state.id
-    let title =  this.state.titlePost
-    let description = this.state.descriptionPost
+    let lastSeen = this.state.lastSeen
+    let title = this.state.titlePost
     let longitude = this.state.longitude
     let latitude = this.state.latitude
-    const newAccident = { description, longitude, latitude, iduser }
-    console.log(newAccident)
-    await HandleAccidentCreate(newAccident)
+    let iddangerlevel = this.state.iddangerlevel
+    let idaccidenttype = this.state.idaccidenttype
+    const newAccident = { lastSeen, title, longitude, latitude, iddangerlevel, idaccidenttype, iduser }
+    
+    if(!lastSeen && !title){
+      return alert('¡Ingrese los campos necesarios!')
+    }
+    else {
+      const insert = await HandleAccidentCreate(newAccident)
+      if(insert) {
+        this.setState({
+          openNewPost: false,
+          openNewPublicationNotification: true // cambiamos el estado a true para que aparezca la notificación
+        })
+      }
+      console.log(newAccident);
+    }
   }
+  NewPublicationNotificationClose(e) {
+    e.preventDefault()
+    this.setState({
+      openNewPublicationNotification: false
+    })
+  }
+  popperNewPost() {
+    if (!this.state.openNewPost) {
+      this.setState({openNewPost: true})
+    }
+  }
+  popperNewPostClose() {
+    if (this.state.openNewPost) {
+      this.setState({openNewPost: false})
+    }
+  }
+  functionClose() {
+    if (this.state.open) {
+      this.setState({open: false})
+    }
+  }
+  redirectAcctions(e) {
+    e.preventDefault()
+    this.functionRedirect('/mapeo')   
+  }
+  onHome(e) {
+    e.preventDefault()
+    this.functionRedirect('/home')
+  }
+  
   render() {
-    const {countLostPet, person, post, petsData} = this.state
+    const { countLostPet, person, openNewPost, stateSelectTypeAccidentAbuse, stateSelectTypeAccidentLostPet, openNewPublicationNotification } = this.state
     return (
       <div className="app">
         <AppHeader fixed>
-          <DefaultHeader onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
-          <Suspense  fallback={this.loading()}>
+          <DefaultHeader onHome={e=>this.onHome(e)} onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
+          <Suspense  fallback={loading()}>
           </Suspense>
         </AppHeader>
         <div className="app-body">
           <main className="main container">
             <br/>
             <div className="animated fadeIn">
-              {/* Cardview - contadores */}
               <Row>
-                <CardView lg='3' className='text-white bg-warning' text='MASCOTAS PERDIDAS' results={countLostPet === 0 ? '0' : countLostPet}/>
-                <CardView lg='3' className='text-white bg-pink'text='MASCOTAS MALTRATADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
-                <CardView lg='3' className='text-white' style={{background: `${COLOR_PRIMARY}`}} text='MASCOTAS RAPTADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
-                <CardView lg='3' className='text-white bg-success' text='MASCOTAS ADOPTADAS' results={countLostPet === 0 ? '0' : countLostPet}/>
+                <CardView lg='3' className='text-white bg-warning' text='MASCOTAS PERDIDAS' results={countLostPet === 0 ? '0' : 1}/>
+                <CardView lg='3' className='text-white bg-pink' style={{background: `${COLOR_SECONDARY}`}}text='MASCOTAS MALTRATADAS' results={countLostPet === 0 ? '0' : 1}/>
+                <CardView lg='3' className='text-white bg-success' text='MASCOTAS ADOPTADAS' results={countLostPet === 0 ? '0' : 7}/>
               </Row>
               <hr/>
+              {/* Mascotas adoptadas */}
               <Span className='mt-4' text='Ultimas mascotas adoptadas'/>
               <Box display="flex">
                 <ImagePetAdoption footerImage={'../../assets/img/avatars/9.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/11.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/12.jpg'} bodyImage={'../../assets/img/pets/frijolito.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/11.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/12.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/9.jpg'} bodyImage={'../../assets/img/pets/kira.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/6.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/7.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/8.jpg'} bodyImage={'../../assets/img/pets/frijolito.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/6.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
+                <ImagePetAdoption footerImage={'../../assets/img/avatars/8.jpg'} bodyImage={'../../assets/img/pets/frijolito.jpg'}/>
               </Box>
               <br/>
               <div className="row mb-3">
                 <div className="col-12 col-sm-8 col-lg-8 themed-grid-col">
-                  {/* Left */}
+                  {/* Left - desde la línea 290 hasta 353 está para optimizar ¡¡¡ Urgente !!!*/} 
                   <form className="post publisher-box">
-                    <div className="panel panel-white post panel-shadow">
+                    <div className="panel panel-white post panel-shadow border">
                       <div className="wo_pub_txtara_combo">
                         <img src={'../../assets/img/avatars/' + person.photo} className="post-avatar responsive" alt='Imagen'/>
-                        {/* <Imagenes src={'../../assets/img/avatars/' + person.photo} alt={person.lastName}/> */}
-                        <ResponsiveDialog placeholder={'¿Quieres publicar algo, ' + (((person.firstName == null) ? '': person.firstName) + ' ' + ((person.lastName == null) ? '': person.lastName)).toLowerCase() + '?'}
-                        UserDialog={(((person.firstName == null) ? '': person.firstName) + ' ' + ((person.lastName == null) ? '': person.lastName)).toLowerCase()}
-                        UserDialogImg={'../../assets/img/avatars/'  + person.photo} tituloPost={(person.firstName == null) ? 'Por favor, ingresa el titulo de la publicación': person.firstName + ', ingresa el titulo de la publicación'}
-                        handleOnChangeTitulo={this.handleOnChangeTitulo} handleOnChangeDescription={this.handleOnChangeDescription}
-                        handleNewPost={e=>this.handleNewAccidentPost(e)}/>
+                        <textarea onClick={()=>this.popperNewPost()} name='name' className="form-control postText ui-autocomplete-input" cols="8" 
+                        placeholder={'¿Quieres publicar algo, ' + ' ' + (person.firstName + ' ' + person.lastName) + '?'} dir="auto"/>
                       </div>
                     </div>
                   </form>
+                  <Dialog open={openNewPost} onClose={() => this.popperNewPostClose()}>
+                    <DialogTitle id="responsive-dialog-title" style={{width: '530px'}}>
+                    <div className="col-14 col-sm-6 col-lg-8 themed-grid-col row mb-4 container">
+                      <form className="post publisher-box">
+                        <div className="panel panel-white post panel-shadow">
+                          <div className="wo_pub_txtara_combo">
+                            <img src={'../../assets/img/avatars/' + person.photo} className="post-avatar" alt={person.lastName}/>
+                            <textarea className="form-control postText ui-autocomplete-input" name='title'
+                            placeholder={person.firstName  + ', ingresa el titulo de la publicación'}
+                            onChange={this.handleOnChangeTitulo}  dir="auto" style={{width: '480px'}}/>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    </DialogTitle>
+                    <DialogContent>
+                      <div className='row'>
+                        <div className='col'>
+                          <Selected handleChange={this.handleChange}/>
+                        </div>
+                        <div className='col'>
+                          <SelectDangerLevel titleSelect='Niv. peligro: ' handleChangeDanger={this.handleChangeDanger}/>
+                        </div>
+                      </div>
+                      <br/>
+                      <small>Usa un título adecuado. No uses títulos vagos. Tu cuenta será bloqueda si no cumples esto.</small>
+                      <DialogContentText>
+                        {
+                          stateSelectTypeAccidentLostPet 
+                          ?  <Input type="textarea" placeholder = { person.firstName + ', dónde fue la última vez que viste a tu mascota? Describenos...' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          : ''
+                        }
+                        {
+                          stateSelectTypeAccidentAbuse ? <Input type="textarea" placeholder = { person.firstName + ', ingresa los detalles específicos del maltrato - abuso, las mascotas también tienen sus derechos.' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          : ''
+                        }
+                        {
+                          stateSelectTypeAccidentAbuse || stateSelectTypeAccidentLostPet ? ''
+                          : <Input type="textarea" placeholder = { person.firstName + ', ingresa una descripcion clara que describa el incidente' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                        }
+                      </DialogContentText>
+                      <MultipleImageUpload handleChangeImage={this.handleChangeImage}/> {/* Componente multiple - imagen */}
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={()=>this.popperNewPostClose()} color="primary" variant='outlined'>
+                        Cerrar
+                      </Button>
+                      <Button onClick={e=>this.handleNewAccidentPost(e)} color="primary" variant='contained' autoFocus>
+                        Publicar
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                  {/* Notificacion de publicación aceptada */}
+                  <Snackbar
+                    anchorOrigin={{
+                      vertical: 'bottom',
+                      horizontal: 'right',
+                    }}
+                    open={openNewPublicationNotification}
+                    autoHideDuration={5000}
+                    onClick={e=>this.NewPublicationNotificationClose(e)}>
+                    <MySnackbarContentWrapper
+                      variant="success"
+                      message="¡Proceso de nuevo accidente satisfactorio!"
+                    />
+                  </Snackbar>
                   <br/>
-                  <Greeting name={person.firstName + ' ' + person.lastName}/> {/* Mensaje de saludo al usuario */}
-                  {/* Publicaciones */}
-                  <div>
-                    {
-                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
-                      : <CardViewPostEsqueleton/>
-                    }
-                  </div>
-                  <div>
-                    {
-                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
-                      : <CardViewPostEsqueleton/>
-                    }
-                  </div>
-                  <div>
-                    {
-                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
-                      : <CardViewPostEsqueleton/>
-                    }
-                  </div>
-                  <div>
-                    {
-                      post.length > 0 ? <CardViewPost autor={person.firstName + ' ' + person.lastName} textPost={'¡Mascota maltratada, ayuda!'} avatar={'../../assets/img/avatars/9.jpg'}/>
-                      : <CardViewPostEsqueleton/>
-                    }
-                  </div>
+                  {/* Mensaje de Saludo */}
+                  <Greeting name={(person.firstName==null ? '': person.firstName) + ' ' + (person.lastName==null ? '': person.lastName)}/>
+                  {/* Publicaciones de accidentes */}
+                  <AccidentsPost/>
                 </div>
                 <div className="col-12 col-lg-4 themed-grid-col">
-                  {/* Right */}
-                  <TitlebarGridList headTitle={'Ultimas publicaciones de mascotas perdidas'} petsData={petsData}/>
+                  {/* Right - Lista de mascotas perdidas */}
+                  <GetPetsLost/>
                 </div>
-                <div className="">
-                  <SpeedDialTooltipOpen/>
+                <div>
+                  <SpeedDialTooltipOpen onClick={e=>this.redirectAcctions(e)}/> {/* Opción lado derecho */}
                 </div>
               </div>
             </div>
@@ -257,10 +415,4 @@ class Home extends Component {
   }
 }
 Home.propTypes = { ...Home.propTypes, ...geoPropTypes };
-
-export default geolocated({
-  positionOptions: {
-    enableHighAccuracy: false,
-  },
-  userDecisionTimeout: 5000,
-})(Home);
+export default geolocated({ positionOptions: { enableHighAccuracy: false, },userDecisionTimeout: 5000,})(Home);

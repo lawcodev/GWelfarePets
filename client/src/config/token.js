@@ -24,10 +24,12 @@ export default class AuthService {
     this.setToken(res.token)
     return Promise.resolve(res)
   }
+  // Función el cual verifica si el usuario a iniciado sesión - dependiendo del token.
   loggedIn() {
     const token = this.getToken()
     return !!token && !this.isTokenExpired(token) 
   }
+  // guarda la autorización | para ver más de esto f12 en el navegador opción >almacenamiento> almacenamiento local.
   setAuthorization(name) {
     localStorage.setItem('auth', name)
   }
@@ -57,7 +59,7 @@ export default class AuthService {
     return localStorage.getItem('id_token')
   }
   logout() {
-    localStorage.removeItem('id_token');
+    localStorage.removeItem('id_token')
   }
   getProfile() {
     return decode(this.getToken());
@@ -68,7 +70,7 @@ export default class AuthService {
       'Content-Type': 'application/json'
     }
     if (this.loggedIn()) {
-      headers['x-access-token'] = this.getToken()
+      headers['x-access-token'] = this.getToken() // x-access-token es el header que se envía desde el back para la verificación del token al momento de iniciar sesión
     }
     return fetch(url, {
       headers,

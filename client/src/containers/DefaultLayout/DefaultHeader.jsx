@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { UncontrolledDropdown, DropdownItem, DropdownMenu, Row, FormGroup, Input, Col, DropdownToggle, Nav, NavLink, Badge } from 'reactstrap';
+import { UncontrolledDropdown, DropdownItem, DropdownMenu, Row, FormGroup, Input, Badge, Col, DropdownToggle, Nav, NavLink } from 'reactstrap';
 import { AppSidebarToggler, AppNavbarBrand } from '@coreui/react';
 import { HandleAuthenticationById } from '../../components/Login/services/authHelper.services'
 import { Dialog } from '@material-ui/core';
@@ -11,12 +11,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Buttons from '../../common/Buttons'
 import Imagenes from '../../common/Imagenes'
 import logo from '../../assets/img/brand/geo2.png'
+import { COLOR_SUCCESS } from '../../config/config'
 
-const propTypes = {
-  children: PropTypes.node,
-};
-const Auth = new AuthService();
 const defaultProps = {};
+const propTypes = { children: PropTypes.node }
 
 class DefaultHeader extends Component {
   constructor(props) {
@@ -33,8 +31,9 @@ class DefaultHeader extends Component {
   }
   async componentDidMount() {
     try {
-      const profile = Auth.getProfile()
+      const profile = this.Auth.getProfile()
       const user = await HandleAuthenticationById(profile.id)
+      
       this.setState({
         id: profile.id,
         person: user
@@ -51,7 +50,7 @@ class DefaultHeader extends Component {
       }
     }
     catch(err){ 
-      Auth.logout()
+      this.Auth.logout()
     }
   }
   onHandleDetail (e) {
@@ -63,12 +62,11 @@ class DefaultHeader extends Component {
   onDisabledUser(e) {
     e.preventDefault()
     prompt('Ingrese su contraseña por seguridad, para desabilitar su cuenta')
-    this.props.history.push('/login')
+    this.functionRedirect('/login')
   }
   functionClickOpen() {
     if (!this.state.open) {
       this.setState({open: true})
-     
     }
   }
   functionClose() {
@@ -79,7 +77,6 @@ class DefaultHeader extends Component {
   functionClickOpen2() {
     if (!this.state.open2) {
       this.setState({open2: true})
-     
     }
   }
   functionClose2() {
@@ -90,17 +87,19 @@ class DefaultHeader extends Component {
   onChangePassword (e) {
     e.preventDefault()
     alert('Tu password a sido actualizado correctamente')
-    this.props.history.push('/login')
+    this.functionRedirect('/login')
   }
   handleDetailUser (e) {
     e.preventDefault()
   }
+  
   render() {
     const { person, open, open2, authorization} = this.state
     return (
       <React.Fragment>
         <AppNavbarBrand
-          full={{ src: logo, width: 130, height: 40, alt: 'Geopetfare logo' }}
+          full={{ src: logo, width: 130, height: 40, alt: 'Geopetfare logo'}}
+          onClick={e=>this.props.onHome(e)}
         />
         {
           authorization ? <AppSidebarToggler className="d-lg-none" display="md" mobile />: ''
@@ -111,27 +110,29 @@ class DefaultHeader extends Component {
         <Nav className="ml-auto" navbar>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle style={{background: 'white'}}>
-              <NavLink to="#" className="nav-link"><i className="icon-bell"></i><Badge pill color="success">1</Badge></NavLink>
+              <NavLink to="#" className="nav-link"><i className="icon-bell"></i>
+                <Badge pill color="success">1</Badge>
+              </NavLink>
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem>
-                ¡El administrador a aceptado la solicitud de adopción!
+                ¡Tiene una solicitud nueva de aprobación!
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
           {/* Detalle del usuario y opciones */}
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav>
-              <Imagenes src={'../../assets/img/avatars/' + person.photo} alt={person.lastName}/>             
+              <Imagenes src={'../../assets/img/avatars/' + person.photo} alt={person.lastName} color={COLOR_SUCCESS}/>             
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header tag="div" className="text-center">
-                <Imagenes src={'../../assets/img/avatars/' + person.photo} alt={person.lastName}/>
+                <Imagenes src={'../../assets/img/avatars/' + person.photo} alt={person.lastName} color={COLOR_SUCCESS}/>
                 <strong>{person.firstName + ' ' + ((person.middleName == null)? '': person.middleName) + ' ' + person.lastName}</strong><br/>
                 <span>@{(person.firstName + '' + ((person.middleName == null)? '': person.middleName)).toLowerCase()}</span>
               </DropdownItem>
               <DropdownItem onClick={(e) => this.props.onHandleDetail(e)}><i className="icon-user"></i> Perfil</DropdownItem>
-              <DropdownItem><i className="icon-trash"></i> Eliminar cuenta</DropdownItem>
+              {/* <DropdownItem><i className="icon-trash"></i> Eliminar cuenta</DropdownItem> */}
               { authorization ? <DropdownItem onClick={e => this.props.onSignAdmi(e)}><i className="icon-lock"></i> Area del Admi</DropdownItem> : '' }
               <DropdownItem onClick={e => this.props.onLogout(e)}><i className="icon-logout"></i> Cerrar sesión</DropdownItem>
             </DropdownMenu>

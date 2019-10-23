@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   gridList: {
     width: 500,
-    height: 450,
+    height: 650,
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -31,7 +31,7 @@ const TitlebarGridList = (props) => {
         <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
           <ListSubheader component="div">{props.headTitle}</ListSubheader>
         </GridListTile>
-        {props.petsData.map(pet => (
+        {props.petsListLost.map(pet => (
           <GridListTile key={pet.idpet}>
             <img src={'../../assets/img/pets/' + pet.photo} alt={pet.petName} />
             <GridListTileBar

@@ -12,6 +12,12 @@ const items = [
     altText: 'El perro es el mejor amigo del hombre',
     captionHeader: 'PORQUE EL MEJOR AMIGO DEL HOMBRE MERECE UNA VOZ',
     captionText: 'PORQUE EL MEJOR AMIGO DEL HOMBRE MERECE UNA VOZ',
+  },
+  {
+    src: 'http://www.wuf.pe/assets/img/banner/banner-dona_01.jpg',
+    altText: 'El perro es el mejor amigo del hombre',
+    captionHeader: 'PORQUE EL MEJOR AMIGO DEL HOMBRE MERECE UNA VOZ',
+    captionText: 'PORQUE EL MEJOR AMIGO DEL HOMBRE MERECE UNA VOZ',
   }
 ];
 

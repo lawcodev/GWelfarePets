@@ -1,20 +1,8 @@
-const express = require('express');
+import express from 'express'
+import { getAllBreeds } from '../controllers/breedController'
 const router = express.Router();
-const connection = require('../data/connection');
 
-//Total de razas
-router.get('/breeds', async (req, res, next) => {
-  try {
-    const storeProcedure = `call spGetAllBreed()`
-    await connection.query(storeProcedure, (error, results) => {
-      if (error) return console.error(error.message);
-      res.json({
-        status: res.statusCode,
-        data: results[0],
-      });
-    });
-  } catch(e) {
-    console.error(e);    
-  }
-});
+router.route('/breeds')
+  .get(getAllBreeds)
+  
 module.exports = router;

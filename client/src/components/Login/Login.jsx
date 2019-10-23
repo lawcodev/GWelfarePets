@@ -16,7 +16,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import H2 from '../../common/H2'
 import AuthService from '../../config/token';
-
 const urlAuthentication = 'http://localhost:4000/api/authentication'
 const loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
 
@@ -34,7 +33,6 @@ class Login extends Component {
       setOpen: false,
     }
     this.Auth = new AuthService();
-
   }
   componentDidMount () {
     if(this.Auth.loggedIn())
@@ -189,4 +187,5 @@ class Login extends Component {
     );
   }
 }
-export default Login;
+export default Login
+
