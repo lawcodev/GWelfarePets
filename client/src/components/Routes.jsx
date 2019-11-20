@@ -13,6 +13,9 @@ const MappingPetAdmi = React.lazy(() => import('./MappingPetAdmi/MappingPetAdmi'
 //Accidentes
 const Accidents = React.lazy(() => import('./Accidents/Accidents'))
 const AddNewAccidentsPost = React.lazy(() => import('./Accidents/AddNewAccidentsPost'))
+const UnApprovedTakenPet = React.lazy(() => import('./AdoptionIntranet/UnApprovedTakenPet'))
+//Apadrinamiento
+const ApproveSponsorShip = React.lazy(() => import('./Administration/view/SponsorShip/SponsorShipView'))
 
 const routes = [
   { path: '/Home', exact: true, name: 'Home', component: Home }, // enlazas el componente de acuerdo a la ruta que se renderizará
@@ -24,7 +27,9 @@ const routes = [
   { path: '/Razas/nuevo', exact: true, name: 'Registro de razas', component: NewBreed},
   { path: '/mapeo/mascotas', exact: true, name: 'Mapeo gráfico de mascotas', component: MappingPetAdmi},
   { path: '/accidentes', exact: true, name: 'Adminsitración de accidentes', component: Accidents},
-  { path: '/accidentes/nuevo', exact: true, name: 'Registro de accidentes', component: AddNewAccidentsPost}
+  { path: '/accidentes/nuevo', exact: true, name: 'Registro de accidentes', component: AddNewAccidentsPost},
+  { path: '/adopciones/aprobar', exact: true, name: 'Administración de adopciones', component: UnApprovedTakenPet},
+  { path: '/apadrinamiento/aprobar', exact: true, name: 'Administración de apadrinamiento', component: ApproveSponsorShip}
 ];
 // Nota: Para ver más carpeta containers>defaultLayout
 export default routes;

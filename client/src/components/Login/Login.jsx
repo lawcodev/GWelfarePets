@@ -56,7 +56,7 @@ class Login extends Component {
   }
   onRedirectEspouse(e) {
     e.preventDefault()
-    this.props.history.push('/adopta')
+    this.props.history.push('/login')
   }
   onRedirectQuestion(e) {
     e.preventDefault()
@@ -71,7 +71,6 @@ class Login extends Component {
       this.props.history.push('/home')
     })
     .catch(err =>{
-      console.log(err)      
       this.setState({
         error: true,
         message: err

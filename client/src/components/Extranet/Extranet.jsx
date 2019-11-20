@@ -4,8 +4,9 @@ import CarouselImage from '../CarouselExtranet/CarouselImage'
 import Paragraph from '../../common/Paragraph'
 import Span from '../../common/Span'
 import H2 from '../../common/H2'
+import Progress from '../../common/Progress'
 
-const loading = () => <div className="animated fadeIn pt-1 text-center">Loading...</div>
+const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div>
 
 class Extranet extends Component {
   onSignIn(e) {
@@ -14,7 +15,7 @@ class Extranet extends Component {
   }
   onRedirectEspouse(e) {
     e.preventDefault()
-    this.props.history.push('/adopta')
+    this.props.history.push('/login')
   }
   onRedirectQuestion(e) {
     e.preventDefault()

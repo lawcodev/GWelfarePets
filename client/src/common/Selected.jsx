@@ -10,9 +10,7 @@ const options = [
 ]
 
 class Selected extends Component {
-  handleChange(selectedValue){
-    console.log(selectedValue);
-  }
+  
   render() {
     return(
       <Select options={options} onChange={this.props.handleChange} defaultValue={options[0]}

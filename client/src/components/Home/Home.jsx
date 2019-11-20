@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from 'react';
+import React, { Component, Suspense, useState } from 'react';
 import { AppHeader } from '@coreui/react';
 import { HandleAuthenticationById } from '../../components/Login/services/authHelper.services'
 import { COLOR_SECONDARY, HOME } from '../../config/config'
@@ -6,10 +6,7 @@ import { geolocated, geoPropTypes } from '../../config/userPosition'
 import { makeStyles } from '@material-ui/core/styles';
 import { amber, green } from '@material-ui/core/colors';
 import CardView from '../../common/CardView'
-import Span from '../../common/Span'
 import AuthService from '../../config/token';
-import Box from '@material-ui/core/Box';
-import ImagePetAdoption from '../../common/ImagePetAdoption'
 import SpeedDialTooltipOpen from '../../common/SpeedDialTooltipOpen'
 import { Input, Row } from 'reactstrap';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -35,6 +32,9 @@ import Progress from '../../common/Progress'
 import Button from '@material-ui/core/Button';
 import MultipleImageUpload from '../../common/MultipleImageUpload'
 import GetPetsLost from '../Pets/GetPetsLost';
+import PetsTaken from '../DetailAdoption/PetsTaken'
+import { IconQuestion } from '../../common/'
+import TextField from '@material-ui/core/TextField';
 
 const DefaultHeader = React.lazy(() => import('../../containers/DefaultLayout/DefaultHeader'));
 const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div>
@@ -71,7 +71,17 @@ const useStyles1 = makeStyles(theme => ({
     alignItems: 'center',
   },
 }));
-
+const useStyles = makeStyles(theme => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 200,
+  },
+}));
 
 function MySnackbarContentWrapper(props) {
   const classes = useStyles1();
@@ -98,6 +108,35 @@ function MySnackbarContentWrapper(props) {
   );
 }
 
+
+const TextAreaModal = (props) => {
+  const classes = useStyles();
+  const [description, setDescription] = useState(null);
+  const handleChange = eve => {
+    setDescription(eve.target.value)
+  }
+  return (
+    <form className={classes.container} noValidate autoComplete="off">
+      <div>
+        <TextField
+          id="outlined-multiline-static"
+          label='Descripción'
+          multiline
+          rows="4"
+          className={classes.textField}
+          margin="normal"
+          variant="outlined"
+          onChange={handleChange}
+        />
+      </div>
+    </form>
+  );
+}
+const TitlePost = (props) => {
+  return(
+    <span>{props.description}</span>
+  )
+}
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -135,16 +174,18 @@ class Home extends Component {
     this.handleChangeImage = this.handleChangeImage.bind(this)
   }
   async componentDidMount() {
-    if(!this.Auth.loggedIn())
+    if(!this.Auth.loggedIn()) {
       this.props.history.replace('/login');
-    const profile = this.Auth.getProfile() // obtenemos la sesión
-    const user = await HandleAuthenticationById(profile.id)
-    this.setState({
-      id: profile.id,
-      person: user,
-    })
-    this.replaceTitle()
-    this.handlePosition()
+    } else {
+      const profile = this.Auth.getProfile() // obtenemos la sesión
+      const user = await HandleAuthenticationById(profile.id)
+      this.setState({
+        id: profile.id,
+        person: user,
+      })
+      this.replaceTitle()
+      this.handlePosition()
+    }
   }
   replaceTitle() {
     document.title = `${HOME}`
@@ -172,6 +213,7 @@ class Home extends Component {
     this.setState({
       titlePost: e.target.value
     })
+    console.log(e.target.value)    
   }
   handleOnChangeLastSeen(e) {
     e.preventDefault()
@@ -251,7 +293,6 @@ class Home extends Component {
           openNewPublicationNotification: true // cambiamos el estado a true para que aparezca la notificación
         })
       }
-      console.log(newAccident);
     }
   }
   NewPublicationNotificationClose(e) {
@@ -283,19 +324,18 @@ class Home extends Component {
     e.preventDefault()
     this.functionRedirect('/home')
   }
-  
   render() {
     const { countLostPet, person, openNewPost, stateSelectTypeAccidentAbuse, stateSelectTypeAccidentLostPet, openNewPublicationNotification } = this.state
     return (
       <div className="app">
         <AppHeader fixed>
           <DefaultHeader onHome={e=>this.onHome(e)} onLogout={e=>this.signOut(e)} onSignAdmi={e=>this.onSignAdmi(e)} onHandleDetail={e=>this.onHandleDetail(e)}/>
-          <Suspense  fallback={loading()}>
+          <Suspense fallback={loading()}>
           </Suspense>
         </AppHeader>
-        <div className="app-body">
-          <main className="main container">
-            <br/>
+        <div className="container">
+          <br/><br/><br/>
+          <main className="">
             <div className="animated fadeIn">
               <Row>
                 <CardView lg='3' className='text-white bg-warning' text='MASCOTAS PERDIDAS' results={countLostPet === 0 ? '0' : 1}/>
@@ -304,29 +344,40 @@ class Home extends Component {
               </Row>
               <hr/>
               {/* Mascotas adoptadas */}
-              <Span className='mt-4' text='Ultimas mascotas adoptadas'/>
-              <Box display="flex">
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/9.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/6.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/7.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/8.jpg'} bodyImage={'../../assets/img/pets/frijolito.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/10.jpg'} bodyImage={'../../assets/img/pets/roky.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/6.jpg'} bodyImage={'../../assets/img/pets/bella.jpg'}/>
-                <ImagePetAdoption footerImage={'../../assets/img/avatars/8.jpg'} bodyImage={'../../assets/img/pets/frijolito.jpg'}/>
-              </Box>
+              <IconQuestion value='Ultimas mascotas adoptadas' titleTooltip='Últimas 10 mascotas adoptadas junto a su nuevo dueño.'/>
+              <PetsTaken/> { /* Mascotas adoptadas */}
               <br/>
+              <TitlePost description={this.props.description}/>
               <div className="row mb-3">
                 <div className="col-12 col-sm-8 col-lg-8 themed-grid-col">
                   {/* Left - desde la línea 290 hasta 353 está para optimizar ¡¡¡ Urgente !!!*/} 
                   <form className="post publisher-box">
                     <div className="panel panel-white post panel-shadow border">
-                      <div className="wo_pub_txtara_combo">
+                      <div className="modal-body">
                         <img src={'../../assets/img/avatars/' + person.photo} className="post-avatar responsive" alt='Imagen'/>
-                        <textarea onClick={()=>this.popperNewPost()} name='name' className="form-control postText ui-autocomplete-input" cols="8" 
-                        placeholder={'¿Quieres publicar algo, ' + ' ' + (person.firstName + ' ' + person.lastName) + '?'} dir="auto"/>
+                        <textarea onClick={()=>this.popperNewPost()} name='name' data-toggle="modal" data-target="#postModal" className="form-control postText ui-autocomplete-input" cols="8" 
+                        placeholder={'¿Quieres publicar algo, ' + ' ' + (person.firstName + ' ' + person.lastName) + '?'} style={{minWidth: '100%'}}dir="auto"/>
                       </div>
                     </div>
                   </form>
+                  {/* Modal */}
+                  <div class="modal fade" id="declineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Comment</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea class="form-control col-xs-12"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-danger">Decline</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
                   <Dialog open={openNewPost} onClose={() => this.popperNewPostClose()}>
                     <DialogTitle id="responsive-dialog-title" style={{width: '530px'}}>
                     <div className="col-14 col-sm-6 col-lg-8 themed-grid-col row mb-4 container">
@@ -356,16 +407,20 @@ class Home extends Component {
                       <DialogContentText>
                         {
                           stateSelectTypeAccidentLostPet 
-                          ?  <Input type="textarea" placeholder = { person.firstName + ', dónde fue la última vez que viste a tu mascota? Describenos...' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          // ?  <Input type="textarea" placeholder = { person.firstName + ', dónde fue la última vez que viste a tu mascota? Describenos...' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          ? <TextAreaModal/>
                           : ''
                         }
                         {
-                          stateSelectTypeAccidentAbuse ? <Input type="textarea" placeholder = { person.firstName + ', ingresa los detalles específicos del maltrato - abuso, las mascotas también tienen sus derechos.' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          stateSelectTypeAccidentAbuse 
+                          // ? <Input type="textarea" placeholder = { person.firstName + ', ingresa los detalles específicos del maltrato - abuso, las mascotas también tienen sus derechos.' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          ? <TextAreaModal/>
                           : ''
                         }
                         {
                           stateSelectTypeAccidentAbuse || stateSelectTypeAccidentLostPet ? ''
-                          : <Input type="textarea" placeholder = { person.firstName + ', ingresa una descripcion clara que describa el incidente' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          // : <Input type="textarea" placeholder = { person.firstName + ', ingresa una descripcion clara que describa el incidente' } onChange={this.handleOnChangeLastSeen} rows={3} />
+                          : <TextAreaModal/>
                         }
                       </DialogContentText>
                       <MultipleImageUpload handleChangeImage={this.handleChangeImage}/> {/* Componente multiple - imagen */}
@@ -403,8 +458,8 @@ class Home extends Component {
                   {/* Right - Lista de mascotas perdidas */}
                   <GetPetsLost/>
                 </div>
-                <div>
-                  <SpeedDialTooltipOpen onClick={e=>this.redirectAcctions(e)}/> {/* Opción lado derecho */}
+                <div style={{marginTop: '-20px'}}>
+                  <SpeedDialTooltipOpen/> {/* Opción lado derecho */}
                 </div>
               </div>
             </div>

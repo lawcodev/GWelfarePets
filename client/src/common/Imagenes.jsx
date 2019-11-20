@@ -2,6 +2,7 @@ import React from 'react';
 import Badge from '@material-ui/core/Badge';
 import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
+import { COLOR_WHITE } from '../config/config'
 import { withStyles } from '@material-ui/core/styles';
 
 const Imagenes = (props) => {
@@ -45,7 +46,16 @@ const Imagenes = (props) => {
         variant="dot"
       >
       <Avatar alt={'Imagen'} src={props.src} />
+
       </StyledBadge2>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill={COLOR_WHITE} stroke="currentColor" stroke-width="2" strokeLinecap="round" strokeLinejoin="round" className="feather">
+        <circle cx="12" cy="12" r="1">
+        </circle>
+        <circle cx="12" cy="5" r="1">
+        </circle>
+        <circle cx="12" cy="19" r="1">
+        </circle>
+      </svg>
     </Box>
   );
 }

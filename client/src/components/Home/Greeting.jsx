@@ -9,7 +9,7 @@ const Greeting = (props) => {
     greeting = 'Buenos días'
     quote = 'Cada nuevo día es una oportunidad para cambiar tu vida y la de una mascota.'
     img = '../../assets/img/greeting/park.png'
-    classColor = 'alert alert-dismissible greetalert border-bottom-0 border-right-0 border-top-0 border-success';
+    classColor = 'alert alert-dismissible greetalert border-5 border-bottom-0 border-right-0 border-top-0 border-success';
   } else if(hours >= 12 && hours <=18) {
     greeting = 'Buenas tardes'
     quote = 'Que esta tarde sea luz, bendita, iluminada, productiva y feliz.'
@@ -22,13 +22,11 @@ const Greeting = (props) => {
     classColor = 'alert alert-dismissible greetalert border-bottom-0 border-right-0 border-top-0 border-danger';
   }
   return(
-    <div className={`${classColor}`}>
-      <div>
-        <div className="small-texts">{greeting}, {props.name}
-          <img src={img} alt='Imagen'/>
-        </div>
-        <Paragraph text={quote}/>
+    <div className={`${classColor}`} style={{borderLeft: '3.5px solid'}}>
+      <div className="small-texts">{greeting}, {props.name}
+        <img src={img} alt='Imagen'/>
       </div>
+      <Paragraph text={quote}/>
     </div>
   )
 }

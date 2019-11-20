@@ -4,6 +4,7 @@ import Box from '@material-ui/core/Box';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const SmallAvatar = withStyles(theme => ({
   root: {
@@ -30,24 +31,22 @@ const useStyles = makeStyles({
 });
 
 const ImagePetAdoption = (props) => {
-
   const classes = useStyles();
-
   return (
-    <Box display="flex">
-      <Box m={1}>
+    <Tooltip title={props.titleTooltip}>
+      <Box container display="inline" p={1} m={1}>
         <Badge
           overlap="circle"
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'right',
           }}
-          badgeContent={<SmallAvatar alt="Stock avatar" src={props.footerImage} className={classes.bigAvatarSmall} />}
+          badgeContent={<SmallAvatar alt="Imagen" src={props.footerImage} className={classes.bigAvatarSmall} />}
         >
-          <Avatar alt="Stock avatar" src={props.bodyImage} className={classes.bigAvatar}  />
+          <Avatar alt="imagen" src={props.bodyImage} className={classes.bigAvatar}  />
         </Badge>
       </Box>
-    </Box>
+    </Tooltip>
   )
 }
 export default ImagePetAdoption

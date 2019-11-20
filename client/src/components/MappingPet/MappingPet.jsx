@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Progress from '../../common/Progress'
 import Map from '../MappingPetAdmi/utils/Map'
 import httpService from '../../config/token'
+import ProgressCircle from '../../common/ProgressCircle'
 
 const DefaultHeader = React.lazy(() => import('../../containers/DefaultLayout/DefaultHeader'));
 const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div>
@@ -61,7 +62,11 @@ class MappingPet extends Component {
               <br/>
               <div className="animated fadeIn" style={{marginLeft: '-180px'}}>
                 <Row>
-                  <Map accidents={accidentsList} center={{ lat: -8.1278394000, lng: -79.0265921000 }} />
+                  {
+                    accidentsList.length > 0 ?
+                    <Map accidents={accidentsList} center={{ lat: -8.1278394000, lng: -79.0265921000 }} />
+                    : <ProgressCircle/>
+                  }
                 </Row>
               </div>
             </main>
