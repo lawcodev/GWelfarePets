@@ -16,14 +16,14 @@ class AccidentsPost extends Component {
     this.isMounth = true // Cambiamos el estado para cuando el componente es montado
     if(this.isMounth) {
       await this.props.AccidentGetAllApproved()
-      this.interval = setInterval(() => {
-        this.props.AccidentGetAllApproved()
-      }, 3000);
+      // this.interval = setInterval(() => {
+      //   this.props.AccidentGetAllApproved()
+      // }, 3000);
     }
   }
   componentWillUnmount() { // En este componente, es cuando el componente es desmontado, por ende desabilitamos el interval.
     this.isMounth = false
-    clearInterval(this.interval)
+    // clearInterval(this.interval)
   }
   setRedirect(id) {
     this.props.history.push('/perfil/'+id)   
@@ -31,13 +31,13 @@ class AccidentsPost extends Component {
   render() {
     const { accidentsPost } = this.props // llamamos al props, debido a que estamos utilizando redux 
     return(
-      <div>
+      <div className='container'>
         {
           accidentsPost.length > 0 ? accidentsPost.map((accidentPost) => {
             return(
               <div key={accidentPost.idpetaccident}>
                 <CardViewPost
-                fecha={accidentPost.date}
+                date={accidentPost.date}
                 autor={accidentPost.firstName + ' ' + accidentPost.lastName}
                 textPost={accidentPost.lastSeen} 
                 textPostTitle={accidentPost.title}
@@ -47,6 +47,7 @@ class AccidentsPost extends Component {
                 redirectDetailUser={()=>this.setRedirect(accidentPost.iduser)}
                 isAdmi={accidentPost.rol}
                 color={accidentPost.color}
+                titleTooltip={accidentPost.rol}
                 />
                 <br/>
               </div>

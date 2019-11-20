@@ -17,11 +17,12 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import { amber, green } from '@material-ui/core/colors';
 import { COLOR_SECONDARY } from '../../config/config';
+import Progress from '../../common/Progress'
 //Redux
 import { connect } from 'react-redux';
 import { AccidentGetAllUnApproved, ApprovedAccident, RechazeAccident } from './action/accidentAction'
 
-const loading = () => <div className="animated fadeIn pt-1 text-center">Cargando...</div>
+const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div>
 
 const variantIcon = {
   success: CheckCircleIcon,

@@ -19,6 +19,7 @@ app.use((req, res, next) => {
 });
 // Routes
 app.use('/api', require('./routes/pet.router'));
+app.use('/api', require('./routes/adoption.router'));
 app.use('/api', require('./routes/breed.router'));
 app.use('/api', require('./routes/authentication.router'));
 app.use('/api', require('./routes/questions.router'));

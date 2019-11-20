@@ -111,7 +111,7 @@ class DefaultHeader extends Component {
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle style={{background: 'white'}}>
               <NavLink to="#" className="nav-link"><i className="icon-bell"></i>
-                <Badge pill color="success">1</Badge>
+                <Badge pill color="success"></Badge>
               </NavLink>
             </DropdownToggle>
             <DropdownMenu right>

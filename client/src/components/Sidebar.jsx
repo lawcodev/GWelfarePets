@@ -54,7 +54,8 @@ export default {
       icon: 'fa fa-heart',
       children: [
         {
-          name: 'Gestionar adopción',
+          name: 'Gestionar aprobación',
+          url: '/adopciones/aprobar'
         },
       ],
     },
@@ -65,6 +66,7 @@ export default {
       children: [
         {
           name: 'Gestionar apadrinamiento',
+          url: '/apadrinamiento/aprobar'
         },
       ],
     },

@@ -5,6 +5,9 @@ import H1 from '../../common/H1'
 import H2 from '../../common/H2'
 import Span from '../../common/Span'
 import { connect } from 'react-redux';
+import Progress from '../../common/Progress'
+
+const loading = () => <div className="animated fadeIn pt-1 text-center"><Progress/></div>
 
 class Questions extends Component {
   constructor(props){
@@ -40,7 +43,7 @@ class Questions extends Component {
   render() {
     const { questions } = this.props
     return(
-      <React.Fragment>
+      <React.Fragment fallback={loading()}>
         <Header onHome={e=>this.onHome(e)} onSignIn={e=>this.onSignIn(e)} onRedirectEspouse={e=>this.onRedirectEspouse(e)} onRedirectQuestion={e=>this.onRedirectQuestion(e)}/>
         <div className="faq">
           <div className="top">

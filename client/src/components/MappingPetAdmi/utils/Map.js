@@ -27,7 +27,7 @@ class Maps extends Component {
     return (
       <div className="animated fadeIn" style={{marginTop: '-23px'}}>
         <Row>
-          <Map google={this.props.google} zoom={15} initialCenter={this.props.center}>
+          <Map google={this.props.google} zoom={16} initialCenter={this.props.center}>
             {this.props.accidents.map((accident, i) => {
               return (
                 <Marker

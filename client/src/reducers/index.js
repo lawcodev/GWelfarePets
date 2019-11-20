@@ -5,6 +5,7 @@ import petsReducer from './petsReducer'
 import accidentsReducer from './accidentsReducer'
 import questionsReducer from './questionsReducer';
 import usersReducer from './usersReducer'
+import adoptionsReducer from './adoptionsReducer'
 // Exportamos todos los reducers, en un sólo archivo para no exportarlo uno por uno.
 export default combineReducers({
   breeds: breedsReducer,
@@ -12,4 +13,5 @@ export default combineReducers({
   accidents: accidentsReducer,
   questions: questionsReducer,
   users: usersReducer,
+  adoptions: adoptionsReducer
 });

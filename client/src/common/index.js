@@ -1,0 +1,20 @@
+import H1 from './H1'
+import H2 from './H2'
+import H4 from './H4'
+import Span from './Span'
+import Progress from './Progress'
+import ProgressCircle from './ProgressCircle'
+import CardImage from './CardImage'
+import SelectedFilter from './SelectedFilterPets'
+import Button from './Buttons'
+import Tabs from './Tabs'
+import DatePicker from './DatePicker'
+import Label from './Label'
+import Imagenes from './Imagenes'
+import Small from './Small'
+import Strong from './Strong'
+import IconQuestion from './IconQuestion'
+import TextAreaModal from './TextAreaModal'
+
+export { H1, H2, H4, Span, Progress, ProgressCircle, CardImage, SelectedFilter, Button, Tabs, DatePicker, Label, Imagenes, Small, 
+  Strong, IconQuestion, TextAreaModal}

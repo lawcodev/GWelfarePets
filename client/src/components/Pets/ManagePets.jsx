@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardBody, CardHeader, Col, Row, FormGroup } from 'reactstrap';
 import Label from '../../common/Label'
-import Links from '../../common/Link'
 import Icon from '../../common/Icon'
 import Span from '../../common/Span'
 import TextFieldSearch from '../../common/TextFieldSearch'
@@ -12,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { COLOR_SECONDARY } from '../../config/config'
+import { COLOR_SECONDARY, COLOR_SUCCESS } from '../../config/config'
 // Con redux
 import { connect } from 'react-redux';
 import { PetsGetAll, PetDeleteAll, PetGetById } from './action/petAction'
@@ -56,7 +55,6 @@ class ManagePets extends Component {
   }
   async handleEditPet(id, nameRedirect) {
     this.functionRedirect(`${nameRedirect}${id}`)
-    console.log(id + nameRedirect);    
   }
   //#region Funciones para abrir las ventanas modales
   functionClickOpen(id) {
@@ -167,7 +165,7 @@ class ManagePets extends Component {
                 </Dialog> : loading()
               }
               {/* Redirect crear */}
-              <Links className='btn btn-success' icon='fa fa-plus' onClick={() =>this.functionRedirect('/mascotas/nuevo')} text='Agregar'/>
+              <Buttons style={{background: COLOR_SUCCESS}} variant='contained' onClick={() =>this.functionRedirect('/mascotas/nuevo')} text='Agregar'/>
             </CardBody>
           </Card>
         </Col>

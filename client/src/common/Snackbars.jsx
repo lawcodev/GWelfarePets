@@ -87,7 +87,6 @@ const useStyles2 = makeStyles(theme => ({
 const CustomizedSnackbars = (props) => {
   const classes = useStyles2();
   const [open, setOpen] = React.useState(false);
-  console.log(props.id)  
   const handleClick = () => {
     setOpen(true);
   }
